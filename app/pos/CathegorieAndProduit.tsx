@@ -85,8 +85,10 @@ export const CathegorieAndProduit = (props: Props) => {
                             <SheetContent>
                                 <SheetHeader>
                                     <SheetTitle>Liste Cathegorie ...</SheetTitle>
-                                    <SheetDescription className={'relative h-[35rem] overflow-y-auto'}>
-
+                                    <SheetDescription className={'relative h-[35rem] overflow-y-auto space-y-2'}>
+                                        <div className={'p-2'}>
+                                            <Input placeholder={'Recherche par nom'}></Input>
+                                        </div>
                                         <ScrollShadow hideScrollBar className="w-[300px] h-full">
                                             <ListeCathegorieStock></ListeCathegorieStock>
                                         </ScrollShadow>
