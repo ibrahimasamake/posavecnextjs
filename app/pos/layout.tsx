@@ -7,7 +7,7 @@ const Layout = ({children,}: Readonly<{
     children: React.ReactNode;
 }>) => {
     return (
-        <main className={''}>
+        <main className={'h-auto min-h-screen bg-background'}>
             {children}
         </main>
     );

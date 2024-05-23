@@ -1,58 +1,71 @@
 // @flow
 import * as React from 'react';
-import * as fs from "fs";
-import {useState} from "react";
-import {Section} from "@/components/Section";
-import {faker} from "@faker-js/faker";
-import {TableCell, TableRow} from "@/components/ui/table";
-import Image from "next/image";
-import {Car} from "lucide-react";
+import {useEffect, useState} from "react";
+import {DataListeCathegorie} from "@/lib/stockdata";
+import useCathegorieStore from "@/lib/myStoreZustend";
 import {Card} from "@/components/ui/card";
 
 
-type stock={image:string,nom:string}
-const Stock:stock[] = [];
 
-for (let i = 0; i < 40; i++) {
-
-    const product = {
-        image: `https://source.unsplash.com/3000x3000/?random=${i}`,
-        nom: 'Electronic',
-    };
-    Stock.push(product);
-}
-
-
-export const Cathegorie = (props: {
-    title: string;
+type CathegorieType = {
     image: string;
-}) => {
-    return (
-        <div className={'flex-1 w-32 h-36'}>
-            <div className={'relative w-32 h-32  mx-auto '}>
-                <img className={'absolute object-cover rounded-tl rounded-full'} src={props.image} alt={'image'}/>
+    nom: string;
+    quantite: number;
+};
 
+export const Cathegorie = (props:
+           {
+           image: string;
+           nom: string;
+           quantite: number;
+           }) => {
+    const updateCathegorie = useCathegorieStore((state) => state.updateCathegorie);
+
+    return (
+        <Card onClick={()=>{
+            updateCathegorie(props.nom)
+            console.log(props.nom)
+
+        }}
+             className={'flex-1  hover:bg-emerald-800 p-2 '}>
+            <div className={'relative w-24 h-24 mx-auto   '}>
+                <img className={'absolute object-cover  rounded-full'} src={props.image} alt={'image'}/>
             </div>
             <div className={'flex gap-1 justify-center  p-1 text-xs text-white'}>
-                <p className={''}>{props.title}</p>
-                <div> (40)</div>
+                <p className={''}>{props.nom}</p>
+                <div> {props.quantite}</div>
             </div>
-        </div>
+
+        </Card>
     );
 };
 
 interface Props{
+     search:string
 
 }
 
-export const ListeCathegorieStock : React.FC<Props>=({}) => {
+export const ListeCathegorieStock : React.FC<Props>=({search}) => {
+    const  [listecathrgorie,setListeCathegorie]=useState<CathegorieType[]>([]);
+
+    useEffect(() => {
+        async function  recupteData(){
+            const data= DataListeCathegorie(search);
+
+            setListeCathegorie(data)
+        }
+        recupteData()
+
+    }, [search]);
+
 
     return (
         <div className={' flex flex-col gap-2'}>
             <div className={'flex  flex-row  flex-wrap  justify-around gap-4   '}>
 
-                {Stock.map((item, i) => (
-                    <Cathegorie key={i} title={item.nom} image={item.image}></Cathegorie>
+                {listecathrgorie.map((item, i) => (
+
+                    <Cathegorie    key={i} nom={item.nom} image={item.image} quantite={item.quantite}  />
                 ))}
 
             </div>

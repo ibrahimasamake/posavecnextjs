@@ -1,3 +1,4 @@
+
 export type StockType={
     id: string
     image: string,
@@ -52,7 +53,7 @@ let cathegorieData=[]
 for (let i = 0; i < 40; i++) {
     const product:typeCathegorieData = {
         image: `https://source.unsplash.com/100x100/?random=${i}`,
-        nom: `electronic +${i}`,
+        nom: `electronic`+i,
         quantite: Math.floor(Math.random() * (5000 - 500 + 1)) + 500,
     };
     cathegorieData.push(product)
@@ -70,21 +71,59 @@ type typeProduitdData={
     image:string,
     nom: string,
     quantiteActuel:number,
+    cathegorie:string,
     prix:number
 }
-let productData=[]
+let productData: typeProduitdData[]=[]
 
 for (let i = 0; i < 40; i++) {
+
     const product:typeProduitdData = {
         image: `https://source.unsplash.com/100x100/?random=${i}`,
-        nom: `electronic +${i}`,
-        quantiteActuel: Math.floor(Math.random() * (5000 - 500 + 1)) + 500,
-        prix: Math.floor(Math.random() * (120 - 500 + 1)) + 500,
+        nom: `electronic ${i}`,
+        cathegorie: `electronic`+i,
+        quantiteActuel: 500,
+        prix: 5499,
     };
     productData.push(product)
 
 }
 
-export  const Data_Produitc:typeProduitdData[] = productData
-
+export function DataListeProducts(cathegorie: string) {
+    if (cathegorie) {
+        const lowerCaseSearch = cathegorie.toLowerCase();
+        return productData.filter((element) => element.cathegorie.toLowerCase()===lowerCaseSearch);
+    }
+    return productData;
+}
 // pos end Produits Operation
+
+
+
+//liste Cathrgorie Pos //
+
+type listeCathegorie={
+    image: string;
+    nom: string;
+    quantite: number;}
+  const Liste_Cathegorie:listeCathegorie[] = [];
+
+for (let i = 0; i < 40; i++) {
+    const product = {
+        image: `https://source.unsplash.com/3000x3000/?random=${i}`,
+        nom: 'electronic'+i,
+        quantite: i+20,
+    };
+
+    Liste_Cathegorie.push(product);
+}
+
+
+export function DataListeCathegorie(search: string) {
+    if (search) {
+        const lowerCaseSearch = search.toLowerCase();
+        return Liste_Cathegorie.filter((element) => element.nom.toLowerCase().includes(lowerCaseSearch));
+    }
+    return Liste_Cathegorie;
+}
+//liste cathegorie Pos //

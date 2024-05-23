@@ -6,6 +6,9 @@ import {Card} from "@/components/ui/card";
 import {Input} from "@/components/ui/input";
 import Image from "next/image";
 import {Separator} from "@/components/ui/separator";
+import Link from "next/link";
+import {clsx} from "clsx";
+import {buttonVariants} from "@/components/ui/button";
 
 type Props = {
 
@@ -174,13 +177,17 @@ export default function Page(props: Props) {
             <div className={'flex-1 relative bg-card  rounded '}>
 
                 <div className={' flex-1 flex flex-col   gap-2 p-4   sticky top-0 '}>
+                    <div className={'flex  gap-2 '}>
+                        <Link href={'/'}
+                              className={clsx(buttonVariants({variant: "outline"}), 'text-red-700 rounded-full ')}>Quitter</Link>
 
+                    </div>
                     <div>
                         <Card className={'text-2xl p-4 text-end'}>TOTAL : 700000</Card>
                     </div>
 
 
-                    <Card className={'h-[22rem] overflow-y-auto p-2'}>
+                    <Card className={'h-[20rem] overflow-y-auto p-2'}>
                         <ListeSelect></ListeSelect>
                     </Card>
 
