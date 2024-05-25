@@ -1,9 +1,9 @@
 // @flow
 import * as React from 'react';
 import {useEffect, useState} from "react";
-import {DataListeCathegorie} from "@/lib/stockdata";
 import useCathegorieStore from "@/lib/myStoreZustend";
 import {Card} from "@/components/ui/card";
+import {DataListeCathegorie} from "@/lib/posProduit";
 
 
 
@@ -22,26 +22,27 @@ export const Cathegorie = (props:
     const updateCathegorie = useCathegorieStore((state) => state.updateCathegorie);
 
     return (
-        <Card onClick={()=>{
+        <Card onClick={() => {
             updateCathegorie(props.nom)
             console.log(props.nom)
 
         }}
-             className={'flex-1  hover:bg-emerald-800 p-2 '}>
+              className={'flex-1  hover:bg-emerald-800 p-2 relative '}>
             <div className={'relative w-24 h-24 mx-auto   '}>
                 <img className={'absolute object-cover  rounded-full'} src={props.image} alt={'image'}/>
             </div>
             <div className={'flex gap-1 justify-center  p-1 text-xs text-white'}>
                 <p className={''}>{props.nom}</p>
-                <div> {props.quantite}</div>
             </div>
+            <div className={'absolute  top-0  bg-amber-700/90 rounded-b rounded-rb p-2'}> {props.quantite}</div>
+
 
         </Card>
     );
 };
 
-interface Props{
-     search:string
+interface Props {
+    search: string
 
 }
 

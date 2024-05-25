@@ -20,7 +20,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={cn(inter.className,anekTelugu.className,'antialiased','')}>
+      <body className={cn(inter.className,anekTelugu.className,'antialiased','h-lvh')}>
       {children}
       </body>
     </html>

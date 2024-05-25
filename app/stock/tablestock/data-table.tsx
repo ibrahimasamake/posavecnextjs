@@ -14,7 +14,7 @@ import {
 } from "@tanstack/react-table"
 import { Input } from "@/components/ui/input"
 
-import {Button, buttonVariants} from "@/components/ui/button"
+import {Button} from "@/components/ui/button"
 import {
     DropdownMenu,
     DropdownMenuCheckboxItem,
@@ -31,10 +31,7 @@ import {
 } from "@/components/ui/table"
 import * as React from "react"
 import {undefined} from "zod";
-import {columns} from "@/app/stock/tablestock/columns";
 import Image from "next/image";
-import {clsx} from "clsx";
-import {tr} from "@faker-js/faker";
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
@@ -77,7 +74,6 @@ export function DataTable<TData, TValue>({columns, data,}: DataTableProps<TData,
 
         },
     })
-
 
     return (
         <div className="rounded-md border  ">
@@ -144,7 +140,8 @@ export function DataTable<TData, TValue>({columns, data,}: DataTableProps<TData,
                     ))}
                 </TableHeader>
                 <TableBody>
-                    {table.getRowModel().rows?.length ? (
+                    {table.getRowModel().rows?.length?(
+
                         table.getRowModel().rows.map((row) => (
 
                             <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
@@ -164,7 +161,7 @@ export function DataTable<TData, TValue>({columns, data,}: DataTableProps<TData,
 
                             </TableRow>
                         ))
-                    ) : (
+                    ):(
                         <TableRow>
                             <TableCell colSpan={columns.length} className="h-24 text-center">
                                 No results.

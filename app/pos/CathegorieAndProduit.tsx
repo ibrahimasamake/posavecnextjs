@@ -4,18 +4,17 @@ import * as React from 'react';
 import {Card} from "@/components/ui/card";
 import {Input} from "@/components/ui/input";
 import Image from "next/image";
-import {DataListeProducts} from "@/lib/stockdata";
 import {Cathegorie, ListeCathegorieStock} from "@/components/stock/ListeCathegorieStock";
 import {Button, buttonVariants} from "@/components/ui/button";
 import {clsx} from "clsx";
-import {ChevronRight, Layers, ListCollapse} from "lucide-react";
+import {ChevronRight, CircleX, Layers, ListCollapse, SquareX} from "lucide-react";
 import {Separator} from "@/components/ui/separator";
 import {Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger} from "@/components/ui/sheet";
 import {ScrollShadow} from "@nextui-org/scroll-shadow";
 import {useEffect, useState} from "react";
 import useCathegorieStore from "@/lib/myStoreZustend";
-import {Spinnaker} from "next/dist/compiled/@next/font/dist/google";
 import {Spinner} from "@nextui-org/spinner";
+import {DataListeProducts} from "@/lib/posProduit";
 
 type Props = {
 
@@ -30,7 +29,7 @@ type PropsProduits = {
 };
 export const Produts = (props: PropsProduits) => {
     return (
-        <Card className={' w-56 p-4 '}>
+        <Card className={' relative w-60 p-4 '}>
             <div className={'flex border-accent/20 justify-start  gap-2'}>
                 <div className={'relative size-16'}>
                     <Image width={400} height={400} className={'absolute rounded-md'}
@@ -43,21 +42,120 @@ export const Produts = (props: PropsProduits) => {
                     <p className={'text-xs  text-accent/98 self-end border rounded-full bg-amber-800/60 py-1 px-3'}><span>{props.prix}</span><span> F</span></p>
                 </div>
             </div>
+            <Card className={'absolute top-0 right-0 w-6 h-6 p-1 m-1 rounded-full flex opacity-40 justify-center'}>
+                <small className={''}>i</small>
+
+            </Card>
+        </Card>
+    );
+};
+
+const Rac: PropsRaccourcieCathrgorie[] = [
+    {nom: "Tablets"},
+    {nom:"ecran"},
+    {nom:"batterie"},
+    {nom:"ecouteur"},
+
+
+]
+
+type PropsRaccourcieCathrgorie = {
+    nom:string
+};
+export const CathegorieRaccourcie = (props: PropsRaccourcieCathrgorie) => {
+    //update cathegorieState
+    const updateCathegorie = useCathegorieStore((state) => state.updateCathegorie);
+
+
+    return (
+        <Card onClick={()=>updateCathegorie(props.nom)} className={clsx( 'text-sm text-white rounded-full px-5 self-center py-2 hover:bg-accent/50')}>{props.nom}</Card>
+    );
+};
+type RaccourcieBarType={
+    loader:boolean
+}
+
+export const RaccourcieBar = (props: RaccourcieBarType) => {
+    const [openCathegorieBar, setOpenCathegorieBar] = useState(false)
+    const setLoader = useCathegorieStore((state) => state.setloader);
+    const search = useCathegorieStore((state) => state.search);
+    const setSearch = useCathegorieStore((state) => state.setSearch);
+
+    return (
+        <Card className={'flex gap-2 justify-start flex-wrap   p-4 '}>
+
+            {
+                Rac.map((item, i) => (
+                        <CathegorieRaccourcie  key={i} nom={item.nom}></CathegorieRaccourcie>
+                    )
+                )
+            }
+            <div className={'ms-auto'}>
+                <Sheet open={openCathegorieBar}>
+                    <SheetTrigger>
+                        <div onClick={
+                            () => {
+                                setOpenCathegorieBar(true)
+                            }
+                        }
+                             className={clsx(buttonVariants({variant: "outline"}), 'text-white rounded-full bg-amber-700')}>
+                            <span>Cathegories</span> <ChevronRight size={16}/></div>
+                    </SheetTrigger>
+                    <SheetContent className={' '}>
+                        <SheetHeader className={''}>
+                            <SheetTitle className={''}>
+                                <div className={'p-4'}>
+                                    <div className={''}>
+                                        Liste Cathegorie
+                                    </div>
+                                    <div onClick={
+                                        () => {
+                                            setOpenCathegorieBar(false)
+
+                                        }
+                                    } className={'absolute top-0 right-0 bg-background p-4 z-10 hover:bg-accent/90'}>
+                                        <CircleX/>
+                                    </div>
+
+                                </div>
+                            </SheetTitle>
+                            <SheetDescription className={'relative h-[35rem]  space-y-2'}>
+                                <div className={''}>
+                                    <Input onChange={(e) => {
+                                        setSearch(e.target.value)
+                                    }}
+                                           placeholder={'Recherche par nom'}></Input>
+                                </div>
+                                <ScrollShadow onClick={
+                                    () => {
+                                        setLoader(true)
+                                        setTimeout(() => setLoader(false), 300)
+
+                                        setOpenCathegorieBar(false)
+                                    }
+                                } hideScrollBar className="w-[300px] h-full">
+                                    <ListeCathegorieStock search={search}></ListeCathegorieStock>
+                                </ScrollShadow>
+                            </SheetDescription>
+                        </SheetHeader>
+                    </SheetContent>
+                </Sheet>
+
+            </div>
 
         </Card>
     );
 };
 export const CathegorieAndProduit = (props: Props) => {
-    const [search,setSearch]= useState("")
-    const [dataPoroduit,setDataProduct]= useState<PropsProduits[]>([])
+    const [dataPoroduit, setDataProduct] = useState<PropsProduits[]>([])
     const cathegorie = useCathegorieStore((state) => state.cathegorie);
-    const [openCathegorieBar,setOpenCathegorieBar]=useState(false)
-    const [loader,setLoader]=useState(false)
+    const loader = useCathegorieStore((state) => state.loader);
+
 
     useEffect(() => {
-       async function  getDataProduit(){
-            const data =   DataListeProducts(cathegorie)
-           setDataProduct(data)
+        async function getDataProduit() {
+            const data = DataListeProducts(cathegorie)
+            setDataProduct(data)
         }
 
         getDataProduit()
@@ -66,79 +164,41 @@ export const CathegorieAndProduit = (props: Props) => {
 
     return (
 
-        <div className={'flex-auto  space-y-2 flex flex-col  bg-background  relative '}>
+        <Card className={'flex-auto  space-y-2 flex flex-col    relative px-2'}>
 
 
-            <div className={'sticky top-0 z-10 bg-background p-4 space-y-4'}>
+            <div className={'sticky top-0 z-10 bg-background  space-y-1   py-4'}>
+                <RaccourcieBar loader={loader}></RaccourcieBar>
 
-
-                <div className={'text-start'}>Top recherche ....</div>
-                <div className={'flex gap-2 justify-start flex-wrap'}>
-                    <div className={clsx(buttonVariants({variant: "outline"}), 'text-white rounded-full')}>Telephone
-                    </div>
-                    <div className={clsx(buttonVariants({variant: "outline"}), 'text-white rounded-full')}>Chargeur
-                    </div>
-                    <div className={clsx(buttonVariants({variant: "outline"}), 'text-white rounded-full')}>Ecouteur
-                    </div>
-                    <div className={clsx(buttonVariants({variant: "outline"}),'text-white rounded-full')}>PowerBank</div>
-                    <div className={clsx(buttonVariants({variant: "outline"}),'text-white rounded-full')}>Batterie</div>
-                    <div className={clsx(buttonVariants({variant: "outline"}),'text-white rounded-full')}>Ecran</div>
-
-                    <div className={'ms-auto'}>
-                        <Sheet  open={openCathegorieBar} >
-                            <SheetTrigger>
-                                <div onClick={
-                                    ()=>{
-                                        setOpenCathegorieBar(true)
-                                    }
-                                } className={clsx(buttonVariants({variant: "outline"}),'text-white rounded-full bg-amber-700')}><span>Cathegories</span> <ChevronRight size={16} /> </div>
-                            </SheetTrigger>
-                            <SheetContent>
-                                <SheetHeader>
-                                    <SheetTitle>Liste Cathegorie ...</SheetTitle>
-                                    <SheetDescription className={'relative h-[35rem]  space-y-2'}>
-                                        <div className={'p-2'}>
-                                            <Input onChange={(e)=>{
-                                                setSearch(e.target.value)
-                                            }}
-                                                    placeholder={'Recherche par nom'}></Input>
-                                        </div>
-                                        <ScrollShadow onClick={
-                                            ()=>{
-                                                setOpenCathegorieBar(false)
-                                            }
-                                        } hideScrollBar className="w-[300px] h-full">
-                                            <ListeCathegorieStock  search={search}></ListeCathegorieStock>
-                                        </ScrollShadow>
-                                    </SheetDescription>
-                                </SheetHeader>
-                            </SheetContent>
-                        </Sheet>
-
-                    </div>
-
-                </div>
-                <Separator className="my-4" />
                 <div className={'flex gap-2'}>
-                    <div>Cathegorie : </div>
-                    <div>{cathegorie}</div>
+                    <div>{cathegorie.toUpperCase()}</div>
                 </div>
                 <Input placeholder={'Recherche par nom du produit...'}></Input>
             </div>
 
-            <div>
-                <Spinner></Spinner>
-            </div>
-            <div className={'flex flex-wrap gap-1  justify-start    overflow-y-auto  '}>
+            {
+                loader && (
+                    <div className={'flex justify-center items-center pt-20'}>
+                        <Spinner></Spinner>
+                    </div>
+                )
+            }
+            {
+                !loader && (
+                    <div className={'flex flex-wrap gap-1  justify-start pb-10    overflow-y-auto  '}>
+                        {dataPoroduit && (
 
-                {dataPoroduit.map((item, id) => (
-                    <Produts key={id} image={item.image} nom={item.nom} quantiteActuel={item.quantiteActuel}
-                             prix={item.prix}/>
-                ))}
-            </div>
+                            dataPoroduit.map((item, id) => (
+                                <Produts key={id} image={item.image} nom={item.nom} quantiteActuel={item.quantiteActuel}
+                                         prix={item.prix}/>
+                            )))
+                        }
+                    </div>
+                )
+            }
 
 
-        </div>
+        </Card>
 
 
     )
