@@ -1,248 +1,116 @@
-// @flow
 import * as React from 'react';
-import {CathegorieAndProduit} from "@/app/pos/CathegorieAndProduit";
-import {Car, MoveRight} from "lucide-react";
-import {Card} from "@/components/ui/card";
-import {Input} from "@/components/ui/input";
+import { CathegorieAndProduit } from "@/app/pos/CathegorieAndProduit";
+import { Card } from "@/components/ui/card";
 import Image from "next/image";
-import {Separator} from "@/components/ui/separator";
-import Link from "next/link";
-import {clsx} from "clsx";
-import {Button, buttonVariants} from "@/components/ui/button";
+import { DialogDemo } from "@/app/pos/selectedClient";
 
-type Props = {
-
-};
+type Props = {};
 
 type PropsCalcul = {
-    value:string
+    value: string
 };
-const CalculData:PropsCalcul[]=[
-    {
-        value:'1'
-    }, {
-        value:'2'
-    }, {
-        value:'3'
-    }, {
-        value:'4'
-    }, {
-        value:'5'
-    }, {
-        value:'6'
-    },
-    {
-        value:'7'
-    }, {
-        value:'8'
-    }, {
-        value:'9'
-    }, {
-        value:'0'
-    }, {
-        value:'='
-    }, {
-        value:'+'
-    }
-]
+
+const CalculData: PropsCalcul[] = [
+    { value: '1' }, { value: '2' }, { value: '3' },
+    { value: '4' }, { value: '5' }, { value: '6' },
+    { value: '7' }, { value: '8' }, { value: '9' },
+    { value: '0' }, { value: '=' }, { value: '+' }
+];
 
 export function CalculItems(props: PropsCalcul) {
     return (
-        <div className={'bg-amber-50 md:size-10 lg:size-20 text-black rounded hover:bg-amber-700   flex items-center justify-center text-xl '}>
+        <div className={'bg-amber-50 md:size-10 lg:size-20 text-black rounded hover:bg-amber-700 flex items-center justify-center text-xl'}>
             <p>{props.value}</p>
         </div>
     );
-};
-export function Calculatrice(){
+}
+
+export function Calculatrice() {
     return (
-        <div className={'flex flex-wrap justify-center last:ms-auto   p-1 gap-2 '}>
+        <div className={'flex flex-wrap justify-center last:ms-auto p-1 gap-2'}>
             {CalculData.map((item, index) => (
                 <CalculItems key={index} value={item.value}></CalculItems>
             ))}
         </div>
     );
-};
+}
 
-export function ListeSelect(){
+export function ListeSelect() {
     return (
-        <div className={'flex flex-col gap-2'}>
+        <div className={'flex flex-col gap-2 flex-grow overflow-y-auto'}>
+            {[...Array(40)].map((_, index) => (
+                <Card key={index} className="flex gap-2 p-1 items-center">
+                    <div className={'relative size-8'}>
+                        <Image width={400} height={400} className={'absolute rounded-md'}
+                               src={'https://source.unsplash.com/100x100/?random=88'} alt={'image'}></Image>
+                    </div>
+                    <div>
+                        <p className={'text-sm'}>Samsung A32</p>
+                        <p className={'text-xs'}>Qte:1</p>
+                    </div>
+                    <div className={'flex-1'}></div>
+                    <div className={'text-white text-xs bg-amber-700 rounded-full p-1'}>30500 F</div>
+                </Card>
 
-
-            <Card className="flex gap-2 p-1 items-center">
-
-                <div className={'relative size-8'}>
-                    <Image width={400} height={400} className={'absolute rounded-md'}
-                           src={'https://source.unsplash.com/100x100/?random=88'} alt={'image'}></Image>
-                </div>
-
-                <div >
-                    <p className={'text-sm'}>Samsung A32</p>
-
-                    <p className={'text-xs'}>Qte:1</p>
-                </div>
-                <div className={'flex-1'}></div>
-                <div className={'text-white text-xs bg-amber-700 rounded-full p-1'}>4000 F</div>
-            </Card>
-            <Card className="flex gap-2 p-1 items-center">
-
-                <div className={'relative size-8'}>
-                    <Image width={400} height={400} className={'absolute rounded-md'}
-                           src={'https://source.unsplash.com/100x100/?random=88'} alt={'image'}></Image>
-                </div>
-
-                <div >
-                    <p className={'text-sm'}>Samsung A32</p>
-
-                    <p className={'text-xs'}>Qte:1</p>
-                </div>
-                <div className={'flex-1'}></div>
-                <div className={'text-white text-xs bg-amber-700 rounded-full p-1'}>4000 F</div>
-            </Card>
-            <Card className="flex gap-2 p-1 items-center">
-
-                <div className={'relative size-8'}>
-                    <Image width={400} height={400} className={'absolute rounded-md'}
-                           src={'https://source.unsplash.com/100x100/?random=88'} alt={'image'}></Image>
-                </div>
-
-                <div >
-                    <p className={'text-sm'}>Samsung A32</p>
-
-                    <p className={'text-xs'}>Qte:1</p>
-                </div>
-                <div className={'flex-1'}></div>
-                <div className={'text-white text-xs bg-amber-700 rounded-full p-1'}>30500 F</div>
-            </Card>
-            <Card className="flex gap-2 p-1 items-center">
-
-                <div className={'relative size-8'}>
-                    <Image width={400} height={400} className={'absolute rounded-md'}
-                           src={'https://source.unsplash.com/100x100/?random=88'} alt={'image'}></Image>
-                </div>
-
-                <div >
-                    <p className={'text-sm'}>Samsung A32</p>
-
-                    <p className={'text-xs'}>Qte:1</p>
-                </div>
-                <div className={'flex-1'}></div>
-                <div className={'text-white text-xs bg-amber-700 rounded-full p-1'}>30500 F</div>
-            </Card>
-            <Card className="flex gap-2 p-1 items-center">
-
-                <div className={'relative size-8'}>
-                    <Image width={400} height={400} className={'absolute rounded-md'}
-                           src={'https://source.unsplash.com/100x100/?random=88'} alt={'image'}></Image>
-                </div>
-
-                <div >
-                    <p className={'text-sm'}>Samsung A32</p>
-
-                    <p className={'text-xs'}>Qte:1</p>
-                </div>
-                <div className={'flex-1'}></div>
-                <div className={'text-white text-xs bg-amber-700 rounded-full p-1'}>30500 F</div>
-            </Card>
-            <Card className="flex gap-2 p-1 items-center">
-
-                <div className={'relative size-8'}>
-                    <Image width={400} height={400} className={'absolute rounded-md'}
-                           src={'https://source.unsplash.com/100x100/?random=88'} alt={'image'}></Image>
-                </div>
-
-                <div >
-                    <p className={'text-sm'}>Samsung A32</p>
-
-                    <p className={'text-xs'}>Qte:1</p>
-                </div>
-                <div className={'flex-1'}></div>
-                <div className={'text-white text-xs bg-amber-700 rounded-full p-1'}>30500 F</div>
-            </Card>
-            <Card className="flex gap-2 p-1 items-center">
-
-                <div className={'relative size-8'}>
-                    <Image width={400} height={400} className={'absolute rounded-md'}
-                           src={'https://source.unsplash.com/100x100/?random=88'} alt={'image'}></Image>
-                </div>
-
-                <div >
-                    <p className={'text-sm'}>Samsung A32</p>
-
-                    <p className={'text-xs'}>Qte:1</p>
-                </div>
-                <div className={'flex-1'}></div>
-                <div className={'text-white text-xs bg-amber-700 rounded-full p-1'}>30500 F</div>
-            </Card>
-            <Card className="flex gap-2 p-1 items-center">
-
-                <div className={'relative size-8'}>
-                    <Image width={400} height={400} className={'absolute rounded-md'}
-                           src={'https://source.unsplash.com/100x100/?random=88'} alt={'image'}></Image>
-                </div>
-
-                <div >
-                    <p className={'text-sm'}>Samsung A32</p>
-
-                    <p className={'text-xs'}>Qte:1</p>
-                </div>
-                <div className={'flex-1'}></div>
-                <div className={'text-white text-xs bg-amber-700 rounded-full p-1'}>30500 F</div>
-            </Card>
-
-
-
+            ))}
         </div>
     );
-};
+}
+
+type clients = {
+    nom: string,
+    prenom: string,
+    id: number
+}
 
 export default function Page(props: Props) {
+    let clients: clients[] = [
+        { nom: 'James', prenom: 'siko', id: 1 },
+        { nom: 'James', prenom: 'siko', id: 2 },
+        { nom: 'James', prenom: 'siko', id: 3 }
+    ];
+
     return (
-        <div className={' flex flex-col lg:flex-row relative h-screen overflow-hidden '}>
+        <div className={'flex flex-col lg:flex-row relative h-screen overflow-hidden'}>
+            <Card className="flex-1 sticky top-0 rounded py-3">
+                <div className="flex flex-col p-2 gap-2 h-full">
+                    <div className="space-y-2 flex-grow">
 
-
-            <Card className="flex-1 sticky top-0  rounded py-3 ">
-
-                <div className="flex flex-col p-2 gap-2 h-full ">
-                    <div className="space-y-5 flex-grow">
-                        <div>
-                            <Link href={'/'} className={clsx(buttonVariants({variant: 'outline'}))}>Quitter</Link>
-                        </div>
-                        <Card className={' bg-accent/50 flex text-xl p-4  '}>
-                            <div>
-                                TOTAL A PAYER
+                        <div className={'flex flex-col gap-2'}>
+                            <div className={'flex gap-1 '}>
+                                <DialogDemo></DialogDemo>
+                                <Card className={'flex-[2] self-center p-2 flex gap-2 rounded-none'}>
+                                    <p>Ibrahima samake </p>
+                                    <div className={' rounded-full ms-auto bg-black  text-secondary px-2 text-xs self-center'}>74171794</div>
+                                </Card>
                             </div>
-                            <div className="ms-auto ">700000 FCFA</div>
+                            <Card className={'bg-amber-700 text-secondary flex-[2] flex p-4 rounded-none'}>
+                                <div>TOTAL A PAYER</div>
+                                <div className="ms-auto">700000 FCFA</div>
+                            </Card>
+                        </div>
+
+                        <Card className="  p-2 flex  rounded-none ">
+                            <div className={' flex gap-2 justify-center'}>
+                                <div
+                                    className={'flex-[2] text-secondary bg-success-600 justify-center rounded-full text-md py-2 px-4 flex gap-2'}>
+                                    <p>Confirmer la vente maintenant</p>
+                                </div>
+
+                            </div>
                         </Card>
-
-                        <div className={'max-h-[25rem] overflow-y-auto'}>
-                            <ListeSelect/>
-                        </div>
-                        <div className={'p-4 flex gap-2 justify-center'}>
-                            <div className={'  rounded-full bg-warning/1 px-8 py-2'}>Annuler</div>
-                            <div
-                                className={'flex-[2] bg-success-600/40  justify-center rounded-full text-md py-2 px-4 flex gap-2'}>
-                                <p>Confirmer la vente maintenant</p>
-                            </div>
-                        </div>
                     </div>
 
-                    <Card className="mt-auto min-h-4 p-2 flex gap-2 hidden ">
-                        <Card className={'flex-1'}>
-                        </Card>
-                        <Card className={'flex-1'}>
+                    <div className={'overflow-y-auto '}>
+                        <ListeSelect/>
 
-                        </Card>
-                    </Card>
+                    </div>
+
                 </div>
             </Card>
-
-
-            <div className={'flex-[2]  overflow-y-auto'}>
-
+            <div className={'flex-[2] overflow-y-auto'}>
                 <CathegorieAndProduit></CathegorieAndProduit>
-
-
             </div>
         </div>
     );
-};
+}

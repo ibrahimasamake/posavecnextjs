@@ -21,7 +21,7 @@ export default function DemoPage() {
                 <div className="flex-[2]">
                     {showListStock && <TableView />}
                     {showAddProduct && <AddProduit></AddProduit>}
-                    {showListeCathegorie && <ListeCathegorieStock></ListeCathegorieStock>}
+                    {showListeCathegorie && <ListeCathegorieStock search={''}></ListeCathegorieStock>}
                     {showListeRuptureStock && <RuptureStock></RuptureStock>}
 
                 </div>

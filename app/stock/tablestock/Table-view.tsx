@@ -3,10 +3,10 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { DataTable } from "@/app/stock/tablestock/data-table";
 import { columns, StockZod } from "@/app/stock/tablestock/columns";
-import {generateElectronicProducts, StockType} from "@/lib/stockdata";
+import {generateElectronicProducts,StockProduitType} from "@/lib/StockProduitData";
 
 
-async  function getData(): Promise<StockType[]> {
+async  function getData(): Promise<StockProduitType[]> {
     // Récupérez les données depuis votre API ici.
     // Pour le moment, cela retourne les données générées directement.
     return generateElectronicProducts;

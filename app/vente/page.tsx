@@ -19,11 +19,11 @@ import {
 import {Card} from "@/components/ui/card";
 import Image from "next/image";
 import {columns, StockZod} from "@/app/stock/tablestock/columns";
-import {generateElectronicProducts} from "@/lib/stockdata";
 import {DataTable} from "@/app/stock/tablestock/data-table";
 import {el} from "@faker-js/faker";
 import {Children} from "path-scurry";
 import {PropsWithChildren} from "react";
+import {generateElectronicProducts} from "@/lib/StockProduitData";
 
 type Props = {
 
