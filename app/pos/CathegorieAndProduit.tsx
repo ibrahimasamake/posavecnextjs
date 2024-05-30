@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { clsx } from "clsx";
-import {ChevronRight, CircleUser, CircleX, DoorClosed, FileLock2, FileSpreadsheet, Layers} from "lucide-react";
+import {ChevronRight, CircleX, DoorClosed, FileLock2, FileSpreadsheet, Layers} from "lucide-react";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { ScrollShadow } from "@nextui-org/scroll-shadow";
 import useCathegorieStore, {useProductPosStore, useSelectProductClient} from "@/lib/myStoreZustend";

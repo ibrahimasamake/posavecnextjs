@@ -1,6 +1,4 @@
 import {create} from 'zustand'
-import {number, object} from "zod";
-import {th} from "@faker-js/faker";
 
 type CathegorieState = {
     cathegorie: string;

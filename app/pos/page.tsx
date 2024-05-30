@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { CathegorieAndProduit } from "@/app/pos/CathegorieAndProduit";
 import { Card } from "@/components/ui/card";
-import Image from "next/image";
 import { DialogDemo } from "@/app/pos/selectedClient";
 
 type Props = {};
@@ -49,12 +48,8 @@ type clients = {
     id: number
 }
 
-export default function Page(props: Props) {
-    let clients: clients[] = [
-        { nom: 'James', prenom: 'siko', id: 1 },
-        { nom: 'James', prenom: 'siko', id: 2 },
-        { nom: 'James', prenom: 'siko', id: 3 }
-    ];
+export default function Page() {
+
 
     return (
         <div className={'flex flex-col lg:flex-row relative h-screen overflow-hidden'}>
