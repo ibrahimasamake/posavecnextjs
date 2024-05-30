@@ -7,7 +7,6 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { clsx } from "clsx";
 import {ChevronRight, CircleUser, CircleX, DoorClosed, FileLock2, FileSpreadsheet, Layers} from "lucide-react";
-import { Separator } from "@/components/ui/separator";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { ScrollShadow } from "@nextui-org/scroll-shadow";
 import useCathegorieStore, {useProductPosStore, useSelectProductClient} from "@/lib/myStoreZustend";
@@ -163,7 +162,7 @@ export const RaccourcieBar = (props: RaccourcieBarType) => {
     );
 };
 
-export const CathegorieAndProduit = (props: Props) => {
+export const CathegorieAndProduit = () => {
     const [dataProduit, setDataProduct] = useState<PropsProduits[]>([]);
     const cathegorie = useCathegorieStore((state) => state.cathegorie);
     const loader = useCathegorieStore((state) => state.loader);
