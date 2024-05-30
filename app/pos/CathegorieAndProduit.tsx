@@ -16,7 +16,7 @@ import Link from "next/link";
 import { ListeCathegorieStock } from "@/components/stock/ListeCathegorieStock";
 import {HoverCard, HoverCardContent, HoverCardTrigger} from "@/components/ui/hover-card";
 
-type Props = {};
+type Props={}
 
 type PropsProduits = {
     image: string,
@@ -112,7 +112,7 @@ type RaccourcieBarType = {
     loader: boolean
 };
 
-export const RaccourcieBar = (props: RaccourcieBarType) => {
+export const RaccourcieBar = () => {
     const [openCathegorieBar, setOpenCathegorieBar] = useState(false);
     const setLoader = useCathegorieStore((state) => state.setloader);
     const search = useCathegorieStore((state) => state.search);
