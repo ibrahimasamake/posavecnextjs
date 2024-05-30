@@ -4,6 +4,7 @@ import {useEffect, useState} from "react";
 import useCathegorieStore from "@/lib/myStoreZustend";
 import {Card} from "@/components/ui/card";
 import {DataListeCathegorie} from "@/lib/posProduit";
+import Image from "next/image";
 
 
 
@@ -29,7 +30,7 @@ export const Cathegorie = (props:
         }}
               className={'flex-1  hover:bg-emerald-800 p-2 relative '}>
             <div className={'relative w-24 h-24 mx-auto   '}>
-                <img className={'absolute object-cover  rounded-full'} src={props.image} alt={'image'}/>
+                <Image width={400} height={400} className={'absolute object-cover  rounded-full'} src={props.image} alt={'image'}/>
             </div>
             <div className={'flex gap-1 justify-center  p-1 text-xs text-white'}>
                 <p className={''}>{props.nom}</p>

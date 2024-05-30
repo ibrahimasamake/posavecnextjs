@@ -32,7 +32,7 @@ for (let i = 0; i < 40; i++) {
 
     const product:typeProduitdData = {
         image: `https://source.unsplash.com/100x100/?random=${i}`,
-        nom: productNames[i],
+        nom: productNames[i].toLowerCase(),
         cathegorie: categories[Math.floor(Math.random() * categories.length)],
         quantiteActuel: 500,
         prix: 5499,
@@ -40,14 +40,21 @@ for (let i = 0; i < 40; i++) {
     productData.push(product)
 
 }
-
-export function DataListeProducts(cathegorie: string) {
-    if (cathegorie) {
-        const lowerCaseSearch = cathegorie.toLowerCase();
-        return productData.filter((element) => element.cathegorie.toLowerCase()===lowerCaseSearch);
-    }
-    return productData;
+export async function DataListeProducts(cathegorie: string, search: string) {
+    return new Promise<typeProduitdData[]>((resolve) => {
+        let result= productData;
+        if (cathegorie) {
+            const lowerCaseCathegorie = cathegorie.toLowerCase();
+            result = result.filter((element) => element.cathegorie.toLowerCase() === lowerCaseCathegorie);
+        }
+        if (search) {
+            const lowerCaseSearch = search.toLowerCase();
+            result = result.filter((element) => element.nom.toLowerCase().includes(lowerCaseSearch));
+        }
+        resolve( result);
+    });
 }
+
 // pos end Produits Operation
 
 
@@ -63,7 +70,7 @@ const Liste_Cathegorie:listeCathegorie[] = [];
 
 for (let i = 0; i < categories.length; i++) {
     const product = {
-        image: `https://source.unsplash.com/3000x3000/?random=${i}`,
+        image: `https://source.unsplash.com/100x100/?random=${i}`,
         nom: categories[i],
         quantite: 20,
     };
@@ -80,3 +87,4 @@ export function DataListeCathegorie(search: string) {
     return Liste_Cathegorie;
 }
 //liste cathegorie Pos //
+

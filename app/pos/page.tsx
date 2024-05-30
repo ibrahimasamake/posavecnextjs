@@ -38,21 +38,7 @@ export function Calculatrice() {
 export function ListeSelect() {
     return (
         <div className={'flex flex-col gap-2 flex-grow overflow-y-auto'}>
-            {[...Array(40)].map((_, index) => (
-                <Card key={index} className="flex gap-2 p-1 items-center">
-                    <div className={'relative size-8'}>
-                        <Image width={400} height={400} className={'absolute rounded-md'}
-                               src={'https://source.unsplash.com/100x100/?random=88'} alt={'image'}></Image>
-                    </div>
-                    <div>
-                        <p className={'text-sm'}>Samsung A32</p>
-                        <p className={'text-xs'}>Qte:1</p>
-                    </div>
-                    <div className={'flex-1'}></div>
-                    <div className={'text-white text-xs bg-amber-700 rounded-full p-1'}>30500 F</div>
-                </Card>
 
-            ))}
         </div>
     );
 }
@@ -80,21 +66,21 @@ export default function Page(props: Props) {
                             <div className={'flex gap-1 '}>
                                 <DialogDemo></DialogDemo>
                                 <Card className={'flex-[2] self-center p-2 flex gap-2 rounded-none'}>
-                                    <p>Ibrahima samake </p>
-                                    <div className={' rounded-full ms-auto bg-black  text-secondary px-2 text-xs self-center'}>74171794</div>
+                                    <p>Allassane wattara </p>
+                                    <div className={' rounded-full ms-auto text-black font-mono px-2 py-0.1'}>74171794</div>
                                 </Card>
                             </div>
                             <Card className={'bg-amber-700 text-secondary flex-[2] flex p-4 rounded-none'}>
                                 <div>TOTAL A PAYER</div>
-                                <div className="ms-auto">700000 FCFA</div>
+                                <div className="ms-auto ">700000 FCFA</div>
                             </Card>
                         </div>
 
                         <Card className="  p-2 flex  rounded-none ">
                             <div className={' flex gap-2 justify-center'}>
                                 <div
-                                    className={'flex-[2] text-secondary bg-success-600 justify-center rounded-full text-md py-2 px-4 flex gap-2'}>
-                                    <p>Confirmer la vente maintenant</p>
+                                    className={'flex-[2] text-secondary text-success-600 border-success-600 border font-bold justify-center rounded-full text-md py-2 px-4 flex gap-2'}>
+                                    <p>Confirmer la vente</p>
                                 </div>
 
                             </div>
