@@ -25,12 +25,14 @@ type typeProduitdData={
     quantiteActuel:number,
     cathegorie:string,
     prix:number
+    id:number
 }
 let productData: typeProduitdData[]=[]
 
 for (let i = 0; i < 40; i++) {
 
     const product:typeProduitdData = {
+        id:i,
         image: `https://source.unsplash.com/100x100/?random=${i}`,
         nom: productNames[i].toLowerCase(),
         cathegorie: categories[Math.floor(Math.random() * categories.length)],
@@ -88,3 +90,11 @@ export function DataListeCathegorie(search: string) {
 }
 //liste cathegorie Pos //
 
+
+type product={
+    quantite:number;
+    image:string;
+    prix:number;
+}
+
+export const ListeProdutSelect:product[]=[]

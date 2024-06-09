@@ -17,7 +17,7 @@ export function DialogDemo() {
         <Dialog>
             <DialogTrigger asChild>
                 <Button className={'p-5 flex gap-1'} variant="outline">
-                    <User size={16}></User><p className={'self-center'}>Client</p>
+                    <User size={16}></User><p className={'self-center'}></p>
                 </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">

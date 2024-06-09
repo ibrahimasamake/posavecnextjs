@@ -1,96 +1,213 @@
+// /app/pos/Page.tsx
+
+'use client'
+
 import * as React from 'react';
-import { CathegorieAndProduit } from "@/app/pos/CathegorieAndProduit";
-import { Card } from "@/components/ui/card";
-import { DialogDemo } from "@/app/pos/selectedClient";
+import {useEffect, useState, useCallback} from 'react';
+import {CathegorieAndProduit} from "@/app/pos/CathegorieAndProduit";
+import {Card} from "@/components/ui/card";
+import {DialogDemo} from "@/app/pos/selectedClient";
+import {
+    eventSelectUserProductPos,
+    eventSelectUserProductQuantitePos,
+    eventSelectUserProductSelectPos
+} from "@/lib/rxjsEvent";
+import {Subscription} from 'rxjs';
+import {ArrowLeft, Minus, Plus, TicketCheck} from "lucide-react";
+import {Input} from "@/components/ui/input";
+import {Button} from "@/components/ui/button";
 
-type Props = {};
-
-type PropsCalcul = {
-    value: string
+type Product = {
+    id: number;
+    quantite: number;
+    image: string;
+    prix: number;
+    name: string;
 };
 
-const CalculData: PropsCalcul[] = [
-    { value: '1' }, { value: '2' }, { value: '3' },
-    { value: '4' }, { value: '5' }, { value: '6' },
-    { value: '7' }, { value: '8' }, { value: '9' },
-    { value: '0' }, { value: '=' }, { value: '+' }
-];
+export function ListeSelect() {
+    const [listProduit, setListProduct] = useState<Product[]>([]);
 
-export function CalculItems(props: PropsCalcul) {
-    return (
-        <div className={'bg-amber-50 md:size-10 lg:size-20 text-black rounded hover:bg-amber-700 flex items-center justify-center text-xl'}>
-            <p>{props.value}</p>
-        </div>
-    );
-}
+    useEffect(() => {
+        const handleProductUpdate = (updatedProduct: Product) => {
+            setListProduct((prevList) => {
+                const existingProductIndex = prevList.findIndex(
+                    (product) => product.id === updatedProduct.id
+                );
 
-export function Calculatrice() {
+                if (existingProductIndex !== -1) {
+                    const updatedList = [...prevList];
+                    updatedList[existingProductIndex] = {
+                        ...updatedList[existingProductIndex],
+                        quantite: updatedList[existingProductIndex].quantite + 1,
+                    };
+                    return updatedList;
+                } else {
+                    return [...prevList, updatedProduct];
+                }
+            });
+        };
+
+        const subscription = eventSelectUserProductPos.subscribe(handleProductUpdate);
+
+        return () => subscription.unsubscribe();
+    }, []);
+
+    const handleIncrement = useCallback((index: number) => {
+        setListProduct((prevList) => {
+            const updatedList = [...prevList];
+            updatedList[index] = {
+                ...updatedList[index],
+                quantite: updatedList[index].quantite + 1,
+            };
+            eventSelectUserProductSelectPos.next(updatedList);
+            return updatedList;
+        });
+    }, []);
+
+    const handleDecrement = useCallback((index: number) => {
+        setListProduct((prevList) => {
+            const updatedList = [...prevList];
+            if (updatedList[index].quantite > 1) {
+                updatedList[index] = {
+                    ...updatedList[index],
+                    quantite: updatedList[index].quantite - 1,
+                };
+            }
+            eventSelectUserProductSelectPos.next(updatedList);
+            return updatedList;
+        });
+    }, []);
+
+    const handleInputChange = useCallback((index: number, newValue: number) => {
+        setListProduct((prevList) => {
+            const updatedList = [...prevList];
+            updatedList[index] = {
+                ...updatedList[index],
+                quantite: newValue,
+            };
+            eventSelectUserProductSelectPos.next(updatedList);
+            return updatedList;
+        });
+    }, []);
+
     return (
-        <div className={'flex flex-wrap justify-center last:ms-auto p-1 gap-2'}>
-            {CalculData.map((item, index) => (
-                <CalculItems key={index} value={item.value}></CalculItems>
+        <div className="relative flex flex-col gap-1 self-end justify-end px-1">
+            {listProduit.map((item, index) => (
+                <Card key={index} className="p-1 relative border rounded-md border-success-600/20 flex gap-2">
+                    <div className="relative w-14 h-14">
+                        <img src={item.image} alt={`Product ${index}`} className="absolute rounded" />
+                    </div>
+                    <div className="space-y-0.5 flex flex-col justify-between">
+                        <p className="text-md font-mono">{item.name.toUpperCase()}</p>
+                        <div className="flex items-center gap-0 ">
+                            <Button className="border bg-white rounded-none rounded-bl rounded-tl" onClick={() => handleIncrement(index)}>
+                                <Plus size={8} />
+                            </Button>
+                            <div className={'w-12 bg-white'}>
+                                <Input
+                                    className="py-0 px-1 rounded-none"
+                                    type="number"
+                                    value={item.quantite}
+                                    min={1}
+                                    size={4}
+                                    onChange={(e) => handleInputChange(index, Number(e.target.value))}
+                                />
+                            </div>
+                            <Button className="border bg-white rounded-none rounded-br rounded-tr" onClick={() => handleDecrement(index)}>
+                                <Minus size={8} />
+                            </Button>
+                        </div>
+                        <p className="text-xs text-white absolute bottom-0 right-0 p-2 bg-amber-700 ">{item.prix} FCFA</p>
+                    </div>
+                </Card>
             ))}
         </div>
     );
 }
 
-export function ListeSelect() {
-    return (
-        <div className={'flex flex-col gap-2 flex-grow overflow-y-auto'}>
+type Client = {
+    nom: string;
+    prenom: string;
+    id: number;
+};
 
+type prix = {
+    value: number;
+}
+
+export function TotalPrixProductComponent() {
+    const [prixTotalList, setPrixTotalList] = useState<Product[]>([]);
+    const [prix, setPrix] = useState<number>(0);
+
+    useEffect(() => {
+        const handleProductUpdate = (updatedPrice: Product) => {
+            setPrixTotalList((prevList) => {
+                const existingProductIndex = prevList.findIndex(product => product.id === updatedPrice.id);
+                if (existingProductIndex !== -1) {
+                    const updatedList = [...prevList];
+                    updatedList[existingProductIndex] = updatedPrice;
+                    return updatedList;
+                } else {
+                    return [...prevList, updatedPrice];
+                }
+            });
+        };
+
+        const subscription: Subscription = eventSelectUserProductPos.subscribe(handleProductUpdate);
+        return () => subscription.unsubscribe();
+    }, []);
+
+    useEffect(() => {
+        const Liste = (liste: Product[]) => {
+            setPrixTotalList(liste);
+        }
+        const subscription: Subscription = eventSelectUserProductSelectPos.subscribe(Liste);
+        return () => subscription.unsubscribe();
+    }, []);
+
+    useEffect(() => {
+        const newPrix = prixTotalList.reduce((accumulator, currentValue) => accumulator + currentValue.prix * currentValue.quantite, 0);
+        setPrix(newPrix);
+    }, [prixTotalList]);
+
+    return (
+        <div className="flex-auto items-center px-4 bg-success-600/10 flex">
+            <div>TOTAL A PAYER</div>
+            <div className="ms-auto">{prix} FCFA</div>
         </div>
     );
 }
 
-type clients = {
-    nom: string,
-    prenom: string,
-    id: number
-}
-
 export default function Page() {
-
-
     return (
-        <div className={'flex flex-col lg:flex-row relative h-screen overflow-hidden'}>
-            <Card className="flex-1 sticky top-0 rounded py-3">
+        <div className="flex flex-col lg:flex-row relative h-screen overflow-hidden">
+            <div className="flex-1 sticky top-0 py-3">
                 <div className="flex flex-col p-2 gap-2 h-full">
-                    <div className="space-y-2 flex-grow">
-
-                        <div className={'flex flex-col gap-2'}>
-                            <div className={'flex gap-1 '}>
-                                <DialogDemo></DialogDemo>
-                                <Card className={'flex-[2] self-center p-2 flex gap-2 rounded-none'}>
-                                    <p>Allassane wattara </p>
-                                    <div className={' rounded-full ms-auto text-black font-mono px-2 py-0.1'}>74171794</div>
+                    <div className="space-y-2">
+                        <div className="flex flex-col flex-col-reverse gap-2">
+                            <div className="flex gap-1">
+                                <DialogDemo />
+                                <Card className="flex-[2] self-center p-2 flex gap-2 rounded-none">
+                                    <p>Allassane Wattara</p>
+                                    <div className="rounded-full ms-auto text-black font-mono px-2 py-0.1">74171794</div>
                                 </Card>
                             </div>
-                            <Card className={'bg-amber-700 text-secondary flex-[2] flex p-4 rounded-none'}>
-                                <div>TOTAL A PAYER</div>
-                                <div className="ms-auto ">700000 FCFA</div>
-                            </Card>
-                        </div>
-
-                        <Card className="  p-2 flex  rounded-none ">
-                            <div className={' flex gap-2 justify-center'}>
-                                <div
-                                    className={'flex-[2] text-secondary text-success-600 border-success-600 border font-bold justify-center rounded-full text-md py-2 px-4 flex gap-2'}>
-                                    <p>Confirmer la vente</p>
+                            <div className="flex gap-1">
+                                <TotalPrixProductComponent />
+                                <div className="bg-success-600 p-2 flex self-center">
+                                    <p className={'text-white w-full text-center'}>Vendre</p>
                                 </div>
-
                             </div>
-                        </Card>
+                        </div>
                     </div>
-
-                    <div className={'overflow-y-auto '}>
-                        <ListeSelect/>
-
+                    <div className="overflow-y-auto">
+                        <ListeSelect />
                     </div>
-
                 </div>
-            </Card>
-            <div className={'flex-[2] overflow-y-auto'}>
-                <CathegorieAndProduit></CathegorieAndProduit>
+            </div>
+            <div className="flex-[2] overflow-y-auto">
+                <CathegorieAndProduit />
             </div>
         </div>
     );

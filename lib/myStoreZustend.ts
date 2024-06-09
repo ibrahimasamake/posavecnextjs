@@ -36,31 +36,23 @@ export const useProductPosStore= create<posProduct>((set)=>({
     setSearch:(value:string) => set({search:value}),
 }));
 
-type product={
+type Product={
     quantite:number;
     image:string;
     prix:number;
+    name:string
+    id:number,
 }
 
+type State = {
+    selectedProduct:(value:Product)=>Product,
+    selectedList: Product[];
+    setSelectedList: (list: Product[]) => void;
+};
 
-type SelectProductClient={
-    image:string,
-    prix:number,
-    quantite:number,
-    updateQuantite:(newQuantite: number) => void,
-    setProduct:(objects:product)=>void
-    getProduct:(image:string,prix:number,quantite:number)=>object;
-}
+export const useSelectProductClient = create<State>((set) => ({
 
-//pos
-export  const useSelectProductClient= create<SelectProductClient>((set)=>({
-    image:"",
-    prix:0,
-    quantite:0,
-    updateQuantite:(newQuantite)=>set({quantite:newQuantite}),
-    setProduct:(object:product)=>set({image:object.image,prix:object.prix,quantite:object.quantite}),
-    getProduct:(image:string,prix:number,quantite:number)=>{
-        return{image,prix,quantite}
-    }
-
-}))
+    selectedProduct:(value:Product) =>value,
+    selectedList: [],
+    setSelectedList: (list) => set({ selectedList: list }),
+}));
