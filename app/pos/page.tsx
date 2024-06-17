@@ -1,17 +1,33 @@
 "use client";
-
 import { CathegorieAndProduit } from "@/app/pos/CathegorieAndProduit";
 import { DialogDemo } from "@/app/pos/selectedClient";
-import { Card } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { Card } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Input } from "@/components/ui/input";
+import personnePhoto from "@/lib/image/3d/Personne.jpg";
+import {
+  eventSelectUseClient,
   eventSelectUserProductPos,
   eventSelectUserProductSelectPos,
 } from "@/lib/rxjsEvent";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 import { CircleX, Minus, Plus } from "lucide-react";
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 import { Subscription } from "rxjs";
+import { AllProduitsSelectValide } from "./vente";
 
 type Product = {
   id: number;
@@ -21,7 +37,11 @@ type Product = {
   name: string;
 };
 
-export function ListeSelect() {
+export function ListeSelect({
+  setFinalProduits,
+}: {
+  setFinalProduits: (products: Product[]) => void;
+}) {
   const [listProduit, setListProduct] = useState<Product[]>([]);
 
   useEffect(() => {
@@ -48,7 +68,7 @@ export function ListeSelect() {
 
     const subscription =
       eventSelectUserProductPos.subscribe(handleProductUpdate);
-
+    eventSelectUserProductSelectPos.next(listProduit);
     return () => subscription.unsubscribe();
   }, []);
 
@@ -99,6 +119,15 @@ export function ListeSelect() {
     });
   }, []);
 
+  useEffect(() => {
+    const Liste = () => {
+      return listProduit;
+    };
+    const liste = Liste();
+    eventSelectUserProductSelectPos.next(liste);
+    setFinalProduits(liste); // Met à jour finalProduits ici
+  }, [listProduit, setFinalProduits]);
+
   return (
     <div className="relative flex flex-col gap-1 self-end justify-end px-1">
       {listProduit.map((item, index) => (
@@ -148,7 +177,7 @@ export function ListeSelect() {
               </div>
               <div className="ms-4 text-tiny">Qte: {item.quantite}</div>
             </div>
-            <div className="text-xs text-white absolute bg-amber-600 rounded-t bottom-0 right-0 px-2 py-1 ">
+            <div className="text-xs text-white absolute bg-amber-600  rounded-t bottom-1 rounded-b right-1 px-2 py-1 ">
               {item.prix} FCFA
             </div>
           </div>
@@ -226,32 +255,212 @@ export function TotalPrixProductComponent() {
   );
 }
 
+type ClientPos = {
+  nom: string;
+  prenom: string;
+  numero: string;
+};
 export default function Page() {
+  const [client, setClient] = useState<ClientPos | null>(null);
+  const [finalProduits, setFinalProduits] = useState<Product[]>([]);
+  const total = finalProduits.reduce(
+    (total, item) => total + item.prix * item.quantite,
+    0
+  );
+
+  useEffect(() => {
+    const getClient = (client: ClientPos) => {
+      setClient(client);
+      console.log(client);
+    };
+
+    const subscription: Subscription =
+      eventSelectUseClient.subscribe(getClient);
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  // Fonction pour créer une facture
+
+  function createInvoice() {
+    const doc = new jsPDF();
+
+    // Définir les styles globaux
+    doc.setFont("Helvetica", "bold");
+    doc.setFontSize(16);
+    doc.setTextColor(40, 40, 40);
+    doc.text("SAM INFORMATIQUE MALI", 14, 20);
+
+    // Ajouter le header avec les informations de l'entreprise
+    doc.setFontSize(12);
+    doc.setFont("Helvetica", "normal");
+    doc.text("Sam Informatique Mali", 14, 30);
+    doc.text("PDG: Ibrahima Samake", 14, 36);
+    doc.text("Numéro: 74171794", 14, 42);
+
+    // Générer la date et le numéro de la facture
+    const date = new Date().toLocaleDateString();
+    const invoiceNumber = Math.floor(Math.random() * 1000000).toString(); // Génère un numéro de facture unique
+
+    // Ajouter les informations de la facture
+    doc.setFontSize(12);
+    doc.setFont("Helvetica", "normal");
+    doc.text(`Date: ${date}`, 120, 20);
+    doc.text(`Facture N°: ${invoiceNumber}`, 120, 26);
+
+    // Ajouter les informations du client
+    if (client) {
+      doc.text(`Client: ${client.nom} ${client.prenom}`, 120, 36);
+      doc.text(`Numéro: ${client.numero}`, 120, 42);
+    } else {
+      doc.text("Client: inconnu", 120, 36);
+    }
+
+    // Ajouter les produits dans un tableau
+    const productsTable = finalProduits.map((product, index) => [
+      index + 1,
+      product.name,
+      product.quantite,
+      `${product.prix * product.quantite} FCFA`,
+    ]);
+
+    doc.autoTable({
+      head: [["#", "Produit", "Quantité", "Prix Total (FCFA)"]],
+      body: productsTable,
+      startY: 50,
+      theme: "grid",
+      headStyles: { fillColor: [22, 160, 133] }, // Couleur de l'en-tête
+      alternateRowStyles: { fillColor: [240, 240, 240] }, // Couleur des lignes alternées
+      styles: {
+        font: "Helvetica",
+        fontSize: 10,
+        textColor: [40, 40, 40],
+      },
+      margin: { top: 50 },
+    });
+
+    // Ajouter le total avec un fond moderne
+    const finalY = doc.previousAutoTable.finalY || 50;
+    doc.setFontSize(12);
+    doc.setTextColor(255, 255, 255); // Couleur du texte en blanc
+    doc.setFillColor(255, 98, 79); // Couleur de fond en rouge orangé
+    doc.rect(14, finalY + 8, 182, 12, "F"); // Rectangle pour le fond
+    doc.text(`Total: ${total} FCFA`, 20, finalY + 15); // Texte du total
+
+    // Ajouter un pied de page
+    doc.setFontSize(10);
+    doc.setTextColor(150, 150, 150);
+    doc.text("Merci pour votre achat!", 14, doc.internal.pageSize.height - 10);
+
+    // Sauvegarder le PDF
+    doc.save("facture.pdf");
+  }
+
   return (
-    <div className="flex flex-col lg:flex-row relative h-screen overflow-hidden">
+    <div className="flex flex-col lg:flex-row h-screen overflow-hidden">
       <div className="flex-1 sticky top-0 py-3">
         <div className="flex flex-col p-2 gap-2 h-full">
           <div className="space-y-2">
-            <div className="flex  flex-col-reverse gap-2">
+            <div className="flex flex-col-reverse gap-2">
               <div className="flex gap-1">
                 <DialogDemo />
                 <Card className="flex-[2] self-center p-2 flex gap-2 rounded-none">
-                  <p>Allassane Wattara</p>
-                  <div className="rounded-full ms-auto text-black font-mono px-2 py-0.1">
-                    74171794
-                  </div>
+                  {client ? (
+                    <>
+                      <p>
+                        {client.nom} {client.prenom}
+                      </p>
+                      <div className="rounded-full ms-auto text-black font-mono px-2 py-0.1">
+                        {client.numero}
+                      </div>
+                    </>
+                  ) : (
+                    <p className="text-center">Aucun client</p>
+                  )}
                 </Card>
               </div>
               <div className="flex gap-1">
                 <TotalPrixProductComponent />
                 <div className="bg-success-600 p-2 flex self-center">
-                  <p className={"text-white w-full text-center"}>Vendre</p>
+                  <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                      <p className="text-white w-full text-center cursor-pointer  rounded-md">
+                        Vendre
+                      </p>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent className="max-w-4xl min-h-[500px]">
+                      {" "}
+                      {/* Ajout d'une classe CSS pour ajuster la largeur */}
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>
+                          Confirmation de la vente ?
+                        </AlertDialogTitle>
+                        <AlertDialogDescription>
+                          <div className="flex flex-col gap-1">
+                            <div className="flex flex-col-reverse gap-1">
+                              <div className="flex-[2]">
+                                <div className="max-h-[400px] border-1 overflow-y-scroll">
+                                  <AllProduitsSelectValide
+                                    produits={finalProduits}
+                                  />
+                                </div>
+                                <div className="p-2 bg-amber-900/80 text-white text-lg flex justify-between">
+                                  <div>Total a payer:</div>
+                                  <div> {total} FCFA</div>
+                                </div>
+                              </div>
+                              <div className="flex-1 flex flex-col">
+                                <Card className="flex flex-col gap-1 items-center  p-1">
+                                  <Image
+                                    className="rounded-full border-1 border-success-200"
+                                    alt="user"
+                                    src={personnePhoto}
+                                    width={50}
+                                    height={50}
+                                  />
+                                  <div className="flex flex-col text-center">
+                                    <p className="text-nowrap">
+                                      Ibrahima Samake
+                                    </p>
+                                    <p>74171794</p>
+                                  </div>
+                                </Card>
+                              </div>
+                            </div>
+                            <div>
+                              <div className="items-top flex space-x-2">
+                                <Checkbox id="terms1" />
+                                <div className="grid gap-1.5 leading-none">
+                                  <label
+                                    htmlFor="terms1"
+                                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                                  >
+                                    Genere la facture apres confirmation.
+                                  </label>
+                                  <p className="text-sm text-muted-foreground">
+                                    Veuller a alumer l'inprimente afin que la
+                                    facture de la vente soit bien imprimer
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction onClick={createInvoice}>
+                          Confirmer la vente
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
                 </div>
               </div>
             </div>
           </div>
           <div className="overflow-y-auto">
-            <ListeSelect />
+            <ListeSelect setFinalProduits={setFinalProduits} />
           </div>
         </div>
       </div>

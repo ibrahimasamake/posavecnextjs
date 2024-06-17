@@ -1,16 +1,24 @@
-import {Observable, Subject} from 'rxjs';
+import { Observable, Subject } from "rxjs";
 import exp from "node:constants";
-type Product={
-    quantite:number;
-    image:string;
-    prix:number;
-    name:string
-    id:number
-}
+type Product = {
+  quantite: number;
+  image: string;
+  prix: number;
+  name: string;
+  id: number;
+};
 
 export const eventSelectUserProductPos = new Subject<Product>();
-export const eventSelectUserProductQuantitePos=new Subject<number>();
-export const eventSelectUserProductSelectPos=new Subject<Product[]>();
+export const eventSelectUserProductQuantitePos = new Subject<number>();
+export const eventSelectUserProductSelectPos = new Subject<Product[]>();
 
 // Emit events from any part of your application
 // eventSelectUserProductPos.next(updatedProductList);
+
+export type Client = {
+  nom: string;
+  prenom: string;
+  numero: string;
+};
+
+export const eventSelectUseClient = new Subject<Client>();

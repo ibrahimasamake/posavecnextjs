@@ -62,7 +62,7 @@ export const Produts = (props: PropsProduits) => {
 
   return (
     <Card className="relative w-60 pt-1 hover:bg-gray-100 border border-gray-300 hover:shadow-lg transition-all duration-300 ease-in-out rounded-lg">
-      <p className="text-sm px-2 text-center font-semibold text-gray-800 text-ellipsis text-nowrap w-full overflow-hidden">
+      <p className="text-xs px-2 text-center font-semibold text-gray-800 text-ellipsis text-nowrap w-full overflow-hidden">
         {capitalize(props.nom)}
       </p>
 

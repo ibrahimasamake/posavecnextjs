@@ -1,11 +1,9 @@
+import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import { Open_Sans } from "next/font/google";
+import { Inter, Open_Sans } from "next/font/google";
 import "./globals.css";
-import {Header} from "@/components/Header";
-import {cn} from "@/lib/utils";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ weight: "400", subsets: ["latin"] });
 const anekTelugu = Open_Sans({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -20,8 +18,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={cn(inter.className,anekTelugu.className,'antialiased','h-lvh')}>
-      {children}
+      <body className={cn(inter.className, "antialiased", "h-lvh")}>
+        {children}
       </body>
     </html>
   );
