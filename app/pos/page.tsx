@@ -37,12 +37,11 @@ type Product = {
   prix: number;
   name: string;
 };
+type ProductPosPropos = {
+  setFinalProduits: (proudct: Product[]) => void;
+};
 
-export function ListeSelect({
-  setFinalProduits,
-}: {
-  setFinalProduits: (products: Product[]) => void;
-}) {
+export function ListeSelect({ setFinalProduits }: ProductPosPropos) {
   const [listProduit, setListProduct] = useState<Product[]>([]);
 
   useEffect(() => {
