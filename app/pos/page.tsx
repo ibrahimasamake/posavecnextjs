@@ -15,6 +15,7 @@ import {
 import { Card } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
+import { formatPrice } from "@/lib/actionUtils";
 import personnePhoto from "@/lib/image/3d/Personne.jpg";
 import {
   eventSelectUseClient,
@@ -178,7 +179,7 @@ export function ListeSelect({
               <div className="ms-4 text-tiny">Qte: {item.quantite}</div>
             </div>
             <div className="text-xs text-white absolute bg-amber-600  rounded-t bottom-1 rounded-b right-1 px-2 py-1 ">
-              {item.prix} FCFA
+              {formatPrice(item.prix)}
             </div>
           </div>
           <div className="absolute top-1 right-1 ">
@@ -250,7 +251,7 @@ export function TotalPrixProductComponent() {
   return (
     <div className="flex-auto items-center px-4 bg-success-600/10 flex">
       <div>TOTAL A PAYER</div>
-      <div className="ms-auto">{prix} FCFA</div>
+      <div className="ms-auto">{formatPrice(prix)} </div>
     </div>
   );
 }
@@ -321,7 +322,7 @@ export default function Page() {
       index + 1,
       product.name,
       product.quantite,
-      `${product.prix * product.quantite} FCFA`,
+      `${product.prix * product.quantite} `,
     ]);
 
     doc.autoTable({
@@ -345,12 +346,12 @@ export default function Page() {
     doc.setTextColor(255, 255, 255); // Couleur du texte en blanc
     doc.setFillColor(255, 98, 79); // Couleur de fond en rouge orangé
     doc.rect(14, finalY + 8, 182, 12, "F"); // Rectangle pour le fond
-    doc.text(`Total: ${total} FCFA`, 20, finalY + 15); // Texte du total
+    doc.text(`Total = ${total} F CFA `, 120, finalY + 15); // Texte du total
 
     // Ajouter un pied de page
     doc.setFontSize(10);
     doc.setTextColor(150, 150, 150);
-    doc.text("Merci pour votre achat!", 14, doc.internal.pageSize.height - 10);
+    doc.text("Merci pour votre achat!", 14, finalY + 25); // Texte du total
 
     // Sauvegarder le PDF
     doc.save("facture.pdf");
@@ -388,7 +389,7 @@ export default function Page() {
                         Vendre
                       </p>
                     </AlertDialogTrigger>
-                    <AlertDialogContent className="max-w-4xl min-h-[500px]">
+                    <AlertDialogContent className="max-w-4xl min-h-[400px]">
                       {" "}
                       {/* Ajout d'une classe CSS pour ajuster la largeur */}
                       <AlertDialogHeader>
@@ -399,18 +400,22 @@ export default function Page() {
                           <div className="flex flex-col gap-1">
                             <div className="flex flex-col-reverse gap-1">
                               <div className="flex-[2]">
-                                <div className="max-h-[400px] border-1 overflow-y-scroll">
+                                <div className="max-h-[300px] border-1 overflow-y-scroll">
                                   <AllProduitsSelectValide
                                     produits={finalProduits}
                                   />
                                 </div>
-                                <div className="p-2 bg-amber-900/80 text-white text-lg flex justify-between">
-                                  <div>Total a payer:</div>
-                                  <div> {total} FCFA</div>
+                                <div className="p-2 mt-2   border-1 border-b-green-700/50 text-lg flex justify-between">
+                                  <div className="text-success-700">
+                                    Total a payer
+                                  </div>
+                                  <div className="text-success-700">
+                                    {formatPrice(total)}
+                                  </div>
                                 </div>
                               </div>
-                              <div className="flex-1 flex flex-col">
-                                <Card className="flex flex-col gap-1 items-center  p-1">
+                              <div className="flex-1 gap-4 flex flex-col">
+                                <Card className="flex  bg-success-300 gap-1 items-center  p-1">
                                   <Image
                                     className="rounded-full border-1 border-success-200"
                                     alt="user"
@@ -439,7 +444,7 @@ export default function Page() {
                                   </label>
                                   <p className="text-sm text-muted-foreground">
                                     Veuller a alumer l'inprimente afin que la
-                                    facture de la vente soit bien imprimer
+                                    facture de la vente soit bien imprimer.
                                   </p>
                                 </div>
                               </div>

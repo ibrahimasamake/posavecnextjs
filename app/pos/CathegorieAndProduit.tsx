@@ -17,6 +17,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Skeleton } from "@/components/ui/skeleton";
+import { formatPrice } from "@/lib/actionUtils";
 import useCathegorieStore, {
   useProductPosStore,
   useSelectProductClient,
@@ -97,7 +98,7 @@ export const Produts = (props: PropsProduits) => {
         </HoverCard>
 
         <p className="text-xs text-orange-600 rounded-full border border-orange-600 py-1 px-3">
-          <span>{props.prix}</span> <span>FCFA</span>
+          <span>{formatPrice(props.prix)}</span>
         </p>
 
         <Button

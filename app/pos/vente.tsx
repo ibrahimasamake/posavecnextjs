@@ -1,3 +1,4 @@
+import { formatPrice } from "@/lib/actionUtils";
 import { useEffect, useState } from "react";
 
 type ProductProps = {
@@ -11,15 +12,16 @@ function ProductComponent({ quantite, prixTotal, name }: ProductProps) {
     <div className="flex justify-around  items-center  gap-2 p-4 border rounded-lg  shadow-sm bg-white hover:shadow-lg transition-shadow duration-200">
       <h2 className="flex-1 overflow-x-hidden font-medium">{name}</h2>
       <p className="text-gray-70 flex-1 ">
-        Qte: <span className="font-semibold">{quantite}</span>
+        <span className="font-semibold">{quantite}</span>
       </p>
       <p className="text-gray-70 flex-1">
-        <span>P.u :{prixTotal / quantite}</span>
+        <span>{formatPrice(prixTotal / quantite)}</span>
       </p>
       <div>
         <p className="text-gray-700">
-          Tt: <span className="font-semibold text-danger-700">{prixTotal}</span>
-          <small className="ml-1 text-xs text-gray-500">FCFA</small>
+          <span className="font-semibold text-danger-700">
+            {formatPrice(prixTotal)}
+          </span>
         </p>
       </div>
     </div>
