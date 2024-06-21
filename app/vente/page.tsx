@@ -63,7 +63,7 @@ export function Topvendeuritems() {
   });
 }
 
-export function Topvendeur() {
+export function Topvendeur(props: Props) {
   return (
     <Card className={"flex-1 flex flex-col gap-2 "}>
       <div className={"p-4 flex flex-col gap-2"}>
@@ -154,7 +154,7 @@ export function Topvente(props: {}) {
   );
 }
 
-export default async function Page() {
+export default async function Page(props: Props) {
   const data = await getData();
 
   return (
