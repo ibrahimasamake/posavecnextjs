@@ -72,7 +72,7 @@ export function createInvoice(
     index + 1,
     product.name,
     product.quantite,
-    formatPrice(product.prix * product.quantite),
+    product.prix * product.quantite,
   ]);
 
   doc.autoTable({
@@ -96,7 +96,7 @@ export function createInvoice(
   doc.setTextColor(255, 255, 255); // Couleur du texte en blanc
   doc.setFillColor(255, 98, 79); // Couleur de fond en rouge orangé
   doc.rect(14, finalY + 8, 182, 12, "F"); // Rectangle pour le fond
-  doc.text(`Total = ${formatPrice(total)} FCFA`, 120, finalY + 15); // Texte du total
+  doc.text(`Total = ${total} FCFA`, 120, finalY + 15); // Texte du total
 
   // Ajouter un pied de page
   doc.setFontSize(10);
