@@ -16,7 +16,6 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { DataTableColumnHeader } from "@/app/stock/tablestock/entetetrieable";
 import { cn } from "@/lib/utils";
 import { ColumnDef } from "@tanstack/react-table";
-
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 // export type Payment = {
@@ -37,8 +36,7 @@ export type StockZod = {
 export const Qte = (quantite: { value: number }) => {
   return (
     <div
-      style={{ width: `${quantite.value}px` }}
-      className={cn({
+      className={cn(`w-[${quantite.value}px]`, {
         "h-2 bg-red-600": quantite.value < 10,
         "h-2 bg-yellow-400": quantite.value >= 10,
         "h-2 bg-green-700": quantite.value >= 50,
@@ -50,21 +48,23 @@ export const Qte = (quantite: { value: number }) => {
 export const columns: ColumnDef<StockZod>[] = [
   {
     id: "select",
-    header: ({ table }) => (
+    header: ({ table }: any) => (
       <Checkbox
         checked={
           table.getIsAllPageRowsSelected() ||
           (table.getIsSomePageRowsSelected() && "indeterminate")
         }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        onCheckedChange={(value: any) =>
+          table.toggleAllPageRowsSelected(!!value)
+        }
         aria-label="Select all"
       />
     ),
-    cell: ({ row }) => (
+    cell: ({ row }: any) => (
       <Checkbox
         className={"flex justify-start"}
         checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        onCheckedChange={(value: any) => row.toggleSelected(!!value)}
         aria-label="Select row"
       />
     ),
@@ -76,7 +76,7 @@ export const columns: ColumnDef<StockZod>[] = [
     accessorKey: "nom",
     header: () => <div className="">Nom</div>,
 
-    cell: ({ row }) => {
+    cell: ({ row }: any) => {
       const nom = String(row.getValue("nom"));
 
       return <div className="text-left font-medium">{nom}</div>;
@@ -86,7 +86,7 @@ export const columns: ColumnDef<StockZod>[] = [
     accessorKey: "cathegorie",
     header: () => <div className="">Cathegorie</div>,
 
-    cell: ({ row }) => {
+    cell: ({ row }: any) => {
       const cathegorie = String(row.getValue("cathegorie"));
 
       return <div className="text-left font-medium">{cathegorie}</div>;
@@ -96,7 +96,7 @@ export const columns: ColumnDef<StockZod>[] = [
     accessorKey: "prixEngro",
     header: () => <div className="">Prix Engro</div>,
 
-    cell: ({ row }) => {
+    cell: ({ row }: any) => {
       const amount = parseFloat(row.getValue("prixEngro"));
 
       const formatted = new Intl.NumberFormat("fr-FR", {
@@ -111,7 +111,7 @@ export const columns: ColumnDef<StockZod>[] = [
     accessorKey: "prixVente",
     header: () => <div className="">Prix Vente</div>,
 
-    cell: ({ row }) => {
+    cell: ({ row }: any) => {
       const amount = parseFloat(row.getValue("prixVente"));
 
       const formatted = new Intl.NumberFormat("fr-FR", {
@@ -125,7 +125,7 @@ export const columns: ColumnDef<StockZod>[] = [
   {
     accessorKey: "quantite",
     header: () => <div className=" text-left">Quantite</div>,
-    cell: ({ row }) => {
+    cell: ({ row }: any) => {
       const amount = parseFloat(row.getValue("quantite"));
 
       const formatted = new Intl.NumberFormat().format(amount);
@@ -140,7 +140,7 @@ export const columns: ColumnDef<StockZod>[] = [
   },
   {
     accessorKey: "image",
-    header: ({ column }) => (
+    header: ({ column }: any) => (
       <DataTableColumnHeader
         className={"hidden"}
         column={column}
@@ -153,15 +153,15 @@ export const columns: ColumnDef<StockZod>[] = [
   {
     id: "actions",
     header: "Action",
-    cell: ({ row }) => {
+    cell: ({ row }: any) => {
       const payment = row.original;
 
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild className={"flex justify-center"}>
-            <Button variant="ghost" className="h-8 w-8 p-0">
+            <Button className={"h-8 w-8 p-0"}>
               <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
+              <MoreHorizontal className={"h-4 w-4"} />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
