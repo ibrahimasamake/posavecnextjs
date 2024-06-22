@@ -39,6 +39,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { EllipsisVertical } from "lucide-react";
+import Image from "next/image";
 import { useState } from "react";
 
 type stock = {
@@ -99,7 +100,7 @@ export const DataStock = (props: {
     >
       <TableCell className="font-medium">
         <div className="relative size-14 rounded-xl">
-          <img className={"rounded"} src={props.image} />
+          <Image alt="image" className={"rounded"} src={props.image} />
         </div>
       </TableCell>
       <TableCell className={"text-sm"}>{props.nom}</TableCell>
@@ -124,7 +125,13 @@ export const DataStock = (props: {
               <DialogDescription className={"flex flex-col gap-2"}>
                 <div className={"flex gap-5 relative "}>
                   <div className="relative flex-[2]  w-20 h-auto rounded-xl">
-                    <img className={" rounded"} src={props.image} />
+                    <Image
+                      width={100}
+                      height={100}
+                      alt="imAGE"
+                      className={" rounded"}
+                      src={props.image}
+                    />
                   </div>
 
                   <div className={"flex-[2]  flex flex-col gap-2  "}>
@@ -215,7 +222,11 @@ export const DataStock = (props: {
                             .
                             <div className={"flex gap-5 relative "}>
                               <div className="relative flex-[2]  w-20 h-auto rounded-xl">
-                                <img className={" rounded"} src={props.image} />
+                                <Image
+                                  alt="image"
+                                  className={" rounded"}
+                                  src={props.image}
+                                />
                               </div>
 
                               <div

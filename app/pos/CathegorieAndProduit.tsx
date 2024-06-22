@@ -62,7 +62,7 @@ export const Produts = (props: PropsProduits) => {
   };
 
   return (
-    <Card className="relative w-60 pt-1 hover:bg-gray-100 border border-gray-300 hover:shadow-lg transition-all duration-300 ease-in-out rounded-lg">
+    <Card className="relative w-60 pt-1 hover:bg-gray-100 border border-gray-300/10 hover:shadow-lg transition-all duration-300 ease-in-out rounded-lg">
       <p className="text-xs px-2 text-center font-semibold text-gray-800 text-ellipsis text-nowrap w-full overflow-hidden">
         {capitalize(props.nom)}
       </p>
@@ -87,7 +87,7 @@ export const Produts = (props: PropsProduits) => {
         </div>
       </div>
 
-      <div className="flex justify-between px-3 flex-row-reverse items-center rounded-b bg-gray-100 gap-2 p-1">
+      <div className="flex justify-between px-3 flex-row-reverse items-center rounded-b bg-gray-100/10 gap-2 p-1">
         <HoverCard>
           <HoverCardTrigger className="relative w-4 h-4 p-1 rounded-full flex justify-center items-center text-tiny border border-gray-300 hover:bg-orange-600 transition-all duration-300">
             <small>i</small>

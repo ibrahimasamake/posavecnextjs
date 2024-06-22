@@ -1,4 +1,4 @@
-// @flow
+/* // @flow
 import { columns, StockZod } from "@/app/stock/tablestock/columns";
 import { DataTable } from "@/app/stock/tablestock/data-table";
 import { Section } from "@/components/Section";
@@ -11,14 +11,21 @@ import Image from "next/image";
 import { PropsWithChildren } from "react";
 
 type Props = {};
+
 async function getData(): Promise<StockZod[]> {
   // Fetch data from your API here.
-  return generateElectronicProducts;
+  return generateElectronicProducts();
 
   // ...
 }
 
-const TOpVendeurdata = [
+type TOpVendeurdataType = {
+  image: string;
+  nom: string;
+  vente: number;
+};
+
+const TOpVendeurdata: TOpVendeurdataType[] = [
   {
     image: `https://source.unsplash.com/3000x3000/?random=56`,
     nom: "Ibrahima Samake",
@@ -40,41 +47,40 @@ const TOpVendeurdata = [
     vente: 74656,
   },
 ];
+
 export function Topvendeuritems() {
-  return TOpVendeurdata.map((element, id) => {
-    return (
-      <div key={id} className={"flex  flex-col gap-2"}>
-        <div className={"relative w-28 h-28 self-center  "}>
-          <Image
-            width={400}
-            height={400}
-            className={"absolute rounded-full"}
-            src={element.image}
-            alt={""}
-          ></Image>
-        </div>
-        <h2 className={"text-xs"}>{element.nom}</h2>
-        <div className={"text-xs text-center justify-center flex gap-2 "}>
-          <p className={"self-end"}>{element.vente}</p>
-          <TrendingUp size={20} className={" inline  self-start"}></TrendingUp>
-        </div>
+  return TOpVendeurdata.map((element, id) => (
+    <div key={id} className={"flex flex-col gap-2"}>
+      <div className={"relative w-28 h-28 self-center"}>
+        <Image
+          width={400}
+          height={400}
+          className={"absolute rounded-full"}
+          src={element.image}
+          alt={""}
+        />
       </div>
-    );
-  });
+      <h2 className={"text-xs"}>{element.nom}</h2>
+      <div className={"text-xs text-center justify-center flex gap-2"}>
+        <p className={"self-end"}>{element.vente}</p>
+        <TrendingUp size={20} className={"inline self-start"} />
+      </div>
+    </div>
+  ));
 }
 
 export function Topvendeur(props: Props) {
   return (
-    <Card className={"flex-1 flex flex-col gap-2 "}>
+    <Card className={"flex-1 flex flex-col gap-2"}>
       <div className={"p-4 flex flex-col gap-2"}>
-        <div className={"text-center md:text-sta"}>
-          <h2 className={clsx("text-2xl  font-bold")}>Top Vendeur</h2>
-          <p className={"text-xs p-2"}>Les vendeurs qui ont le plus vendue </p>
+        <div className={"text-center md:text-start"}>
+          <h2 className={clsx("text-2xl font-bold")}>Top Vendeur</h2>
+          <p className={"text-xs p-2"}>Les vendeurs qui ont le plus vendue</p>
         </div>
 
-        <div className={" flex flex-col  gap-3 flex-wrap overflow-y-auto"}>
-          <div className={"p-4 flex justify-center gap-4 "}>
-            <Topvendeuritems></Topvendeuritems>
+        <div className={"flex flex-col gap-3 flex-wrap overflow-y-auto"}>
+          <div className={"p-4 flex justify-center gap-4"}>
+            <Topvendeuritems />
           </div>
         </div>
       </div>
@@ -115,39 +121,36 @@ export function Itemtopvendeur(
 ) {
   return DataTOpVendeur.map((element, id) => {
     return (
-      <div
-        key={id}
-        className={clsx("  flex  flex-col gap-3  ", props.className)}
-      >
-        <div className={"relative w-28 h-28 self-center  "}>
+      <div key={id} className={clsx("flex flex-col gap-3", props.className)}>
+        <div className={"relative w-28 h-28 self-center"}>
           <Image
             width={400}
             height={400}
             className={"absolute rounded"}
             src={element.image}
             alt={""}
-          ></Image>
+          />
         </div>
-        <h2 className={"self-center text-xs "}>{element.title} </h2>
-        <p className={"self-center  text-xs"}>{element.prix} fcfa</p>
+        <h2 className={"self-center text-xs"}>{element.title}</h2>
+        <p className={"self-center text-xs"}>{element.prix} fcfa</p>
       </div>
     );
   });
 }
 
-export function Topvente(props: {}) {
+export function Topvente(props: Props) {
   return (
     <Card className={"flex-[2] p-4"}>
       <div className={"space-y-4"}>
         <div className={"text-center md:text-start"}>
-          <h2 className={clsx("text-2xl font-bold ")}>Top Produits Vendues</h2>
+          <h2 className={clsx("text-2xl font-bold")}>Top Produits Vendues</h2>
           <p className={"p-2 text-md font-sans"}>
             Les produits les plus acheter et les populaires
           </p>
         </div>
 
-        <div className={"flex overflow-x-auto md:justify-center pb-2  gap-4 "}>
-          <Itemtopvendeur className={""}></Itemtopvendeur>
+        <div className={"flex overflow-x-auto md:justify-center pb-2 gap-4"}>
+          <Itemtopvendeur className={""} />
         </div>
       </div>
     </Card>
@@ -160,13 +163,12 @@ export default async function Page(props: Props) {
   return (
     <Section
       className={clsx(
-        "flex flex-col   gap-2 my-2 justify-around mt-3 overflow-hidden"
+        "flex flex-col gap-2 my-2 justify-around mt-3 overflow-hidden"
       )}
     >
-      <div className=" flex-1 flex flex-col lg:flex-row   gap-4 p-4">
-        <Topvente></Topvente>
-
-        <Topvendeur></Topvendeur>
+      <div className="flex-1 flex flex-col lg:flex-row gap-4 p-4">
+        <Topvente />
+        <Topvendeur />
       </div>
       <div className="flex-[2] flex flex-col h-[32rem] gap-2 overflow-y-auto">
         <div className={"flex gap-1 flex-wrap"}>
@@ -187,4 +189,8 @@ export default async function Page(props: Props) {
       </div>
     </Section>
   );
+}
+ */
+export default function pages() {
+  return <div className={""}>Hello</div>;
 }

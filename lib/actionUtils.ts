@@ -1,17 +1,18 @@
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 
-export const formatPrice = (price: number) => {
+export const formatPrice = (price: number): string => {
   return price
     .toLocaleString("fr-FR", {
       style: "currency",
-      currency: "xof",
+      currency: "XOF",
       minimumFractionDigits: 0,
       maximumFractionDigits: 0,
     })
     .replace("FCFA", "FCFA")
     .trim(); // Retirer l'espace ajouté automatiquement
 };
+
 type ClientPos = {
   nom: string;
   prenom: string;
@@ -30,7 +31,7 @@ export function createInvoice(
   client: ClientPos | null,
   finalProduits: Product[],
   total: number
-) {
+): void {
   const doc = new jsPDF();
 
   // Définir les styles globaux
@@ -48,7 +49,9 @@ export function createInvoice(
 
   // Générer la date et le numéro de la facture
   const date = new Date().toLocaleDateString();
-  const invoiceNumber = Math.floor(Math.random() * 1000000).toString(); // Génère un numéro de facture unique
+  const invoiceNumber = `INV-${Math.floor(Math.random() * 1000000)
+    .toString()
+    .padStart(6, "0")}`;
 
   // Ajouter les informations de la facture
   doc.setFontSize(12);
@@ -69,7 +72,7 @@ export function createInvoice(
     index + 1,
     product.name,
     product.quantite,
-    `${product.prix * product.quantite} `,
+    formatPrice(product.prix * product.quantite),
   ]);
 
   doc.autoTable({
@@ -88,17 +91,17 @@ export function createInvoice(
   });
 
   // Ajouter le total avec un fond moderne
-  const finalY = doc.previousAutoTable.finalY || 50;
+  const finalY = (doc as any).lastAutoTable.finalY || 70; // Utiliser la position de fin de la table
   doc.setFontSize(12);
   doc.setTextColor(255, 255, 255); // Couleur du texte en blanc
   doc.setFillColor(255, 98, 79); // Couleur de fond en rouge orangé
   doc.rect(14, finalY + 8, 182, 12, "F"); // Rectangle pour le fond
-  doc.text(`Total = ${total} F CFA `, 120, finalY + 15); // Texte du total
+  doc.text(`Total = ${formatPrice(total)} FCFA`, 120, finalY + 15); // Texte du total
 
   // Ajouter un pied de page
   doc.setFontSize(10);
   doc.setTextColor(150, 150, 150);
-  doc.text("Merci pour votre achat!", 14, finalY + 25); // Texte du total
+  doc.text("Merci pour votre achat!", 14, finalY + 25);
 
   // Sauvegarder le PDF
   doc.save("facture.pdf");
