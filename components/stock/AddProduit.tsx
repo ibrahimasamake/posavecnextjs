@@ -10,8 +10,8 @@ import { Textarea } from "../ui/textarea";
 
 export function AddProduit() {
   return (
-    <form className="relative h-full overflow-auto flex gap-2 mt-2  ">
-      <div className="flex flex-col gap-2  px-4  flex-[2]">
+    <form className="relative h-full overflow-auto flex gap-2  ">
+      <div className="flex flex-col gap-2  px-4  mt-2  flex-[2]">
         <div className=" space-y-4">
           <div className="text-medium font-semibold flex  space-x-2">
             <Plus />
@@ -112,7 +112,7 @@ export function AddProduit() {
       </div>
 
       <div className="sticky top-0 overflow-hidden flex-1 flex flex-col gap-2 mr-4">
-        <div className="text-xl font-semibold flex space-x-3 ">
+        <div className="text-xl font-semibold flex space-x-3   mt-2">
           <div className="text-sm border-1 border-black px-4 py-2 rounded-full">
             Garde
           </div>
