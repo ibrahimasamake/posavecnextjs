@@ -1,5 +1,15 @@
 "use client";
 import { ListeCathegorieStock } from "@/components/stock/ListeCathegorieStock";
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogHeader,
+  AlertDialogOverlay,
+  AlertDialogPortal,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
@@ -8,14 +18,6 @@ import {
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
 import { Input } from "@/components/ui/input";
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
 import { Skeleton } from "@/components/ui/skeleton";
 import { formatPrice } from "@/lib/actionUtils";
 import useCathegorieStore, {
@@ -28,9 +30,8 @@ import {
   eventSelectUserProductQuantitePos,
 } from "@/lib/rxjsEvent";
 import { cn } from "@/lib/utils";
-import { ScrollShadow } from "@nextui-org/scroll-shadow";
 import { capitalize } from "@nextui-org/shared-utils";
-import { Angry, ChevronRight, CircleX, Layers, Plus } from "lucide-react";
+import { Angry, ChevronRight, Layers, Plus } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -71,8 +72,9 @@ export const Produts = (props: PropsProduits) => {
         <Image
           width={500}
           height={500}
-          className="w-48 h-28 mx-auto rounded-lg object-cover hover:animate-pulse"
+          className="w-48 h-28 mx-auto rounded-lg object-contain hover:animate-pulse"
           src={props.image}
+          //  src="/images/product/img-01.png"
           alt="image"
         />
       </div>
@@ -137,7 +139,7 @@ export const RaccourcieBar = (props: RaccourcieBarType) => {
   const SearchProductValue = useProductPosStore((state) => state.search);
 
   return (
-    <Card className="rounded-lg shadow-md p-1 border border-gray-200 bg-white">
+    <Card className="rounded-lg shadow-md p-1 border border-gray-200">
       <div className="flex items-center justify-start gap-2 ">
         <div className="flex gap-2">
           <Input
@@ -155,48 +157,56 @@ export const RaccourcieBar = (props: RaccourcieBarType) => {
             GO
           </Link>
         </div>
-        <Sheet open={openCathegorieBar} onOpenChange={setOpenCathegorieBar}>
-          <SheetTrigger>
-            <Link
-              href="#"
-              onClick={() => {
-                setOpenCathegorieBar(true);
-              }}
+
+        <AlertDialog
+          open={openCathegorieBar}
+          onOpenChange={setOpenCathegorieBar}
+        >
+          <AlertDialogTrigger asChild>
+            <Button
+              variant="outline"
               className={cn(
                 "bg-amber-600 text-white border-white self-center p-2 rounded-sm  flex border-1"
               )}
+              onClick={() => {
+                setOpenCathegorieBar(true);
+              }}
             >
               <span>Catégories </span>
               <ChevronRight size={16} />
-            </Link>
-          </SheetTrigger>
-          <SheetContent className="bg-white p-6 rounded-lg shadow-lg">
-            <SheetHeader>
-              <SheetTitle>
-                <div className="flex justify-between items-center">
-                  <h2 className="text-lg font-semibold">Liste Catégorie</h2>
-                  <CircleX
-                    onClick={() => setOpenCathegorieBar(false)}
-                    className="cursor-pointer text-gray-500 hover:text-gray-700"
+            </Button>
+          </AlertDialogTrigger>
+          <AlertDialogPortal>
+            <AlertDialogOverlay />
+            <AlertDialogContent className="max-w-4xl min-h-[400px] max-h-[600px] overflow-y-hidden ">
+              <AlertDialogHeader>
+                <AlertDialogTitle className=" space-y-4">
+                  <div className="flex justify-between">
+                    <h2 className="text-md font-semibold">Liste Catégorie</h2>
+                    <div
+                      className="text-sm"
+                      onClick={() => setOpenCathegorieBar(false)}
+                    >
+                      Fermer
+                    </div>
+                  </div>
+                  <Input
+                    className="border-gray-300 rounded-md focus:ring focus:ring-blue-300"
+                    onChange={(e) => setSearch(e.target.value)}
+                    placeholder="Recherche par nom"
                   />
-                </div>
-              </SheetTitle>
-              <SheetDescription className="space-y-4  mt-4">
-                <Input
-                  className="border-gray-300 rounded-md focus:ring focus:ring-blue-300"
-                  onChange={(e) => setSearch(e.target.value)}
-                  placeholder="Recherche par nom"
-                />
-                <ScrollShadow
-                  className="w-full h-[500px] overflow-y-auto"
-                  hideScrollBar
-                >
-                  <ListeCathegorieStock search={search} />
-                </ScrollShadow>
-              </SheetDescription>
-            </SheetHeader>
-          </SheetContent>
-        </Sheet>
+                </AlertDialogTitle>
+                <AlertDialogDescription className="space-y-4 p-6 mt-8 h-[500px]  overflow-y-auto">
+                  <ListeCathegorieStock
+                    closeDialog={setOpenCathegorieBar}
+                    search={search}
+                  />
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+            </AlertDialogContent>
+          </AlertDialogPortal>
+        </AlertDialog>
+
         <div className="ms-auto">
           <div className="p-2 rounded-lg  flex gap-1 my-1">
             <Link
@@ -252,7 +262,7 @@ const CathegorieRaccourcie = ({ nom }: PropsRaccourcieCathrgorie) => {
         updateCathegorie(nom);
         setSearch("");
       }}
-      className="px-4 py-2  font-medium text-slate-800/50 bg-amber-600/20 rounded-full hover:bg-amber-100 transition-colors duration-200"
+      className="px-4 py-2  font-medium text-slate-800/90 bg-amber-600/20 rounded-full hover:bg-amber-100 transition-colors duration-200"
     >
       {nom}
     </button>
@@ -314,8 +324,8 @@ export const CathegorieAndProduit = () => {
   }, [cathegorie, searchProduct]);
 
   return (
-    <Card className="flex-auto space-y-2 flex pt-1 flex-col h-full relative px-2 rounded-none border-gray-200 bg-white">
-      <div className="sticky top-0 z-10 space-y-1 py-0 bg-white border-b border-gray-200">
+    <Card className="flex-auto space-y-2 flex pt-1 flex-col h-full relative px-2 rounded-none border-gray-200 ">
+      <div className="sticky top-0 z-10 space-y-1 py-0  border-b border-gray-200">
         <RaccourcieBar loader={loader} search="" />
 
         <div className="text-sm font-semibold text-gray-800">

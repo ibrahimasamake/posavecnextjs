@@ -16,6 +16,7 @@ export const Cathegorie = (props: {
   image: string;
   nom: string;
   quantite: number;
+  closeDialog: (value: boolean) => void;
 }) => {
   const updateCathegorie = useCathegorieStore(
     (state) => state.updateCathegorie
@@ -28,14 +29,17 @@ export const Cathegorie = (props: {
         updateCathegorie(props.nom);
         setSearchParent("");
         console.log(props.nom);
+        props.closeDialog(false);
       }}
-      className={"flex-1  hover:bg-accent p-2 relative "}
+      className={
+        "flex-1 max-w-[200px] max-h-[200px]  hover:bg-accent p-2 relative "
+      }
     >
-      <div className={"relative w-24 h-24 mx-auto   "}>
+      <div className={"relative w-32  h-32   mx-auto   "}>
         <Image
-          width={400}
-          height={400}
-          className={"absolute object-cover  rounded-full"}
+          width={200}
+          height={200}
+          className={"absolute object-contain  rounded-full"}
           src={props.image}
           alt={"image"}
         />
@@ -57,9 +61,13 @@ export const Cathegorie = (props: {
 
 interface Props {
   search: string;
+  closeDialog: (value: boolean) => void;
 }
 
-export const ListeCathegorieStock: React.FC<Props> = ({ search }) => {
+export const ListeCathegorieStock: React.FC<Props> = ({
+  search,
+  closeDialog,
+}) => {
   const [listecathrgorie, setListeCathegorie] = useState<CathegorieType[]>([]);
 
   useEffect(() => {
@@ -73,9 +81,10 @@ export const ListeCathegorieStock: React.FC<Props> = ({ search }) => {
 
   return (
     <div className={" flex flex-col gap-2"}>
-      <div className={"flex  flex-row  flex-wrap  justify-around gap-4   "}>
+      <div className={"flex  flex-row  flex-wrap  justify gap-4   "}>
         {listecathrgorie.map((item, i) => (
           <Cathegorie
+            closeDialog={closeDialog}
             key={i}
             nom={item.nom}
             image={item.image}

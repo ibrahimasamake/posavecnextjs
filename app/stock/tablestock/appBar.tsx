@@ -1,171 +1,149 @@
-
 // @flow
+import { buttonVariants } from "@/components/ui/button";
 import { clsx } from "clsx";
-import {Button, buttonVariants} from "@/components/ui/button";
-import * as React from "react";
+import { AlertCircle, Box, Cpu, List, PlusCircle } from "lucide-react"; // Import icons from Lucide
 import Link from "next/link";
-import { Bot, BrainCircuit, Combine, Layers, LayoutList, PackagePlus } from "lucide-react";
-import {fa} from "@faker-js/faker";
 
 type Props = {
-    setShowAddProduit: (value: boolean) => void,
-    setShowListStock: (value: boolean) => void,
-    setShowListeCathegorie: (value: boolean) => void,
-    setShowRuptureStock: (value: boolean) => void,
+  setShowAddProduit: (value: boolean) => void;
+  setShowListStock: (value: boolean) => void;
+  setShowListeCathegorie: (value: boolean) => void;
+  setShowRuptureStock: (value: boolean) => void;
 };
 
-export const AppBar = ({setShowAddProduit,setShowListStock,setShowListeCathegorie,setShowRuptureStock}: Props) => {
+export const AppBar = ({
+  setShowAddProduit,
+  setShowListStock,
+  setShowListeCathegorie,
+  setShowRuptureStock,
+}: Props) => {
+  return (
+    <div className="z-10   text-sm ">
+      <h3 className="text-sm font-semibold ps-2 py-2 bg-slate-100/40 ">
+        Gestion du Stock
+      </h3>
 
-    return (
-        <div className="lg:fixed bg-background top-16 z-10 py-2">
-            <h3 className="text-lg pb-4">Gestion du Stock</h3>
-
-            <div className="ps-2 lg:flex lg:flex-col items-start flex-wrap gap-2 hidden ">
-                <Link href={''}
-                      onClick={() => {
-                          setShowListStock(true)
-
-                          {/*Update*/
-                          }
-
-                          setShowAddProduit(false)
-                          setShowListeCathegorie(false)
-                          setShowRuptureStock(false)
-
-                      }}
-                      className={'flex gap-2 items-center'}>
-                    <LayoutList size={16}/>
-                    <span className="hidden lg:block">Liste des stocks</span>
-                </Link>
-                <Link href={''}
-                      onClick={() => {
-                          setShowAddProduit(true)
-
-                          {/*Update*/
-                          }
-
-                          setShowListStock(false)
-                          setShowListeCathegorie(false)
-                          setShowRuptureStock(false)
-
-                      }}
-                      className={'flex items-center gap-2'}
-                >
-                    <PackagePlus size={16}/>
-                    <span className="hidden lg:block">Ajouter un produit</span>
-                </Link>
-
-                <Link href={''} onClick={() => {
-
-                    setShowListeCathegorie(true)
-
-                    {/*Update*/
-                    }
-
-                    setShowListStock(false)
-                    setShowAddProduit(false)
-                    setShowRuptureStock(false)
-
-                }}
-                      className={'flex items-center gap-2 '}>
-                    <Combine size={16}/>
-                    <span className="hidden lg:block">Liste catégories</span>
-                </Link>
-                <Link href={''}
-                      onClick={() => {
-                          setShowRuptureStock(true)
-
-                          {/*Update*/
-                          }
-
-                          setShowListStock(false)
-                          setShowListeCathegorie(false)
-                          setShowAddProduit(false)
-                      }}
-                      className={'flex items-center gap-2'}>
-                    <Layers size={16}/>
-                    <span className="hidden lg:block">En rupture de stock</span>
-                </Link>
-
-
-                <Link href={''} className={'flex items-center gap-2'}>
-                    <BrainCircuit size={16}/>
-                    <span className="hidden lg:block">Généré avec IA</span>
-                </Link>
-            </div>
-
-            {/**small device*/}
-
-            <div className="ps-2 flex lg:hidden lg:flex-col items-start flex-wrap gap-2">
-                <Link href={''}
-                      onClick={() => {
-                          setShowListStock(true)
-
-                          {/*Update*/
-                          }
-
-                          setShowAddProduit(false)
-                          setShowListeCathegorie(false)
-                          setShowRuptureStock(false)
-
-                      }}
-                      className={clsx(buttonVariants({variant: "outline"}),'flex gap-2 items-center')}>
-                    <LayoutList size={16}/>
-                    <span className="">Toutes</span>
-                </Link>
-                <Link href={''}
-                      onClick={() => {
-                          setShowAddProduit(true)
-
-                          {/*Update*/
-                          }
-
-                          setShowListStock(false)
-                          setShowListeCathegorie(false)
-                          setShowRuptureStock(false)
-
-                      }}
-                      className={clsx(buttonVariants({variant: "outline"}),'flex gap-2 items-center')}
-                >
-                    <PackagePlus size={16}/>
-                    <span className="">Nouveau</span>
-                </Link>
-
-                <Link href={''} onClick={() => {
-
-                    setShowListeCathegorie(true)
-
-                    {/*Update*/
-                    }
-
-                    setShowListStock(false)
-                    setShowAddProduit(false)
-                    setShowRuptureStock(false)
-
-                }}
-                      className={clsx(buttonVariants({variant: "outline"}),'flex gap-2 items-center')}>
-                    <Combine size={16}/>
-                    <span className="">Catégories</span>
-                </Link>
-                <Link href={''}
-                      onClick={() => {
-                          setShowRuptureStock(true)
-
-                          {/*Update*/
-                          }
-
-                          setShowListStock(false)
-                          setShowListeCathegorie(false)
-                          setShowAddProduit(false)
-                      }}
-                      className={clsx(buttonVariants({variant: "outline"}),'flex gap-2 items-center')}>
-                    <Layers size={16}/>
-                    <span className="">En rupture </span>
-                </Link>
-
-
-
-            </div>
+      <div className="hidden  lg:flex lg:flex-col ">
+        <div
+          onClick={() => {
+            setShowAddProduit(true);
+            setShowListStock(false);
+            setShowListeCathegorie(false);
+            setShowRuptureStock(false);
+          }}
+          className="flex items-center gap-2 cursor-pointer p-2 hover:bg-gray-100 hover:text-blue-600 transition-colors rounded-md"
+        >
+          <PlusCircle className="w-5 h-5" />
+          <span>Ajouter un produit</span>
         </div>
-    );
+
+        <Link
+          href="#"
+          onClick={() => {
+            setShowListeCathegorie(true);
+            setShowListStock(false);
+            setShowAddProduit(false);
+            setShowRuptureStock(false);
+          }}
+          className="flex items-center gap-2 cursor-pointer p-2 hover:bg-gray-100 hover:text-blue-600 transition-colors rounded-md"
+        >
+          <List className="w-5 h-5" />
+          <span>Liste catégories</span>
+        </Link>
+
+        <Link
+          href="#"
+          onClick={() => {
+            setShowRuptureStock(true);
+            setShowListStock(false);
+            setShowListeCathegorie(false);
+            setShowAddProduit(false);
+          }}
+          className="flex items-center gap-2 cursor-pointer p-2 hover:bg-gray-100 hover:text-blue-600 transition-colors rounded-md"
+        >
+          <AlertCircle className="w-5 h-5" />
+          <span>En rupture de stock</span>
+        </Link>
+
+        <Link
+          href="#"
+          className="flex items-center gap-2 cursor-pointer p-2 hover:bg-gray-100 hover:text-blue-600 transition-colors rounded-md"
+        >
+          <Cpu className="w-5 h-5" />
+          <span>Généré avec IA</span>
+        </Link>
+      </div>
+
+      {/** Small device */}
+      <div className="lg:hidden flex flex-col gap-2">
+        <Link
+          href="#"
+          onClick={() => {
+            setShowListStock(true);
+            setShowAddProduit(false);
+            setShowListeCathegorie(false);
+            setShowRuptureStock(false);
+          }}
+          className={clsx(
+            buttonVariants({ variant: "outline" }),
+            "flex gap-2 items-center justify-center py-2 px-4 rounded-lg shadow-md hover:bg-gray-100 transition"
+          )}
+        >
+          <List className="w-5 h-5" />
+          <span>Toutes</span>
+        </Link>
+
+        <Link
+          href="#"
+          onClick={() => {
+            setShowAddProduit(true);
+            setShowListStock(false);
+            setShowListeCathegorie(false);
+            setShowRuptureStock(false);
+          }}
+          className={clsx(
+            buttonVariants({ variant: "outline" }),
+            "flex gap-2 items-center justify-center py-2 px-4 rounded-lg shadow-md hover:bg-gray-100 transition"
+          )}
+        >
+          <PlusCircle className="w-5 h-5" />
+          <span>Nouveau</span>
+        </Link>
+
+        <Link
+          href="#"
+          onClick={() => {
+            setShowListeCathegorie(true);
+            setShowListStock(false);
+            setShowAddProduit(false);
+            setShowRuptureStock(false);
+          }}
+          className={clsx(
+            buttonVariants({ variant: "outline" }),
+            "flex gap-2 items-center justify-center py-2 px-4 rounded-lg shadow-md hover:bg-gray-100 transition"
+          )}
+        >
+          <Box className="w-5 h-5" />
+          <span>Catégories</span>
+        </Link>
+
+        <Link
+          href="#"
+          onClick={() => {
+            setShowRuptureStock(true);
+            setShowListStock(false);
+            setShowListeCathegorie(false);
+            setShowAddProduit(false);
+          }}
+          className={clsx(
+            buttonVariants({ variant: "outline" }),
+            "flex gap-2 items-center justify-center py-2 px-4 rounded-lg shadow-md hover:bg-gray-100 transition"
+          )}
+        >
+          <AlertCircle className="w-5 h-5" />
+          <span>En rupture</span>
+        </Link>
+      </div>
+    </div>
+  );
 };

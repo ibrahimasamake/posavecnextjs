@@ -100,7 +100,7 @@ export default function Page() {
                 <div className="bg-success-600 p-2 flex self-center">
                   <AlertDialog>
                     <AlertDialogTrigger asChild>
-                      <p className="text-white w-full text-center cursor-pointer  rounded-md">
+                      <p className="text-white w-full text-center cursor-pointer  p-0 rounded-md">
                         Vendre
                       </p>
                     </AlertDialogTrigger>

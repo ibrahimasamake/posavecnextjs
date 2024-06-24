@@ -80,11 +80,11 @@ export function DialogDemo() {
           onClick={() => {
             setCloseDialog(true);
           }}
-          className="p-5 flex gap-1"
+          className="p-4 flex gap-1"
           variant="outline"
         >
           <User size={16} />
-          <p className="self-center">Choisir un client</p>
+          <p className="self-center text-sm">Choisir un client</p>
         </Button>
       </DialogTrigger>
 
