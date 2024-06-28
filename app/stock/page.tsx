@@ -8,8 +8,8 @@ import { RuptureStock } from "@/components/stock/RupetureStock";
 import { useState } from "react";
 
 export default function DemoPage() {
-  const [showListStock, setShowListStock] = useState(true);
-  const [showAddProduct, setShowAddProduct] = useState(false);
+  const [showListStock, setShowListStock] = useState(false);
+  const [showAddProduct, setShowAddProduct] = useState(true);
   const [showListeCathegorie, setShowListeCathegorie] = useState(false);
   const [showListeRuptureStock, setShowListeRuptureStock] = useState(false);
 

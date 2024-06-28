@@ -1,7 +1,14 @@
 // @flow
 import { buttonVariants } from "@/components/ui/button";
 import { clsx } from "clsx";
-import { AlertCircle, Box, Cpu, List, PlusCircle } from "lucide-react"; // Import icons from Lucide
+import {
+  AlertCircle,
+  Box,
+  Cpu,
+  Database,
+  List,
+  PlusCircle,
+} from "lucide-react"; // Import icons from Lucide
 import Link from "next/link";
 
 type Props = {
@@ -36,7 +43,18 @@ export const AppBar = ({
           <PlusCircle className="w-5 h-5" />
           <span>Ajouter un produit</span>
         </div>
-
+        <div
+          onClick={() => {
+            setShowAddProduit(false);
+            setShowListStock(true);
+            setShowListeCathegorie(false);
+            setShowRuptureStock(false);
+          }}
+          className="flex items-center gap-2 cursor-pointer p-2 hover:bg-gray-100 hover:text-blue-600 transition-colors rounded-md"
+        >
+          <Database className="w-5 h-5" />
+          <span>Liste de Stock</span>
+        </div>
         <Link
           href="#"
           onClick={() => {

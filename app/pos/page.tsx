@@ -75,12 +75,12 @@ export default function Page() {
   return (
     <div className="flex flex-col lg:flex-row h-screen overflow-hidden">
       <div className="flex-1 sticky top-0 py-3">
-        <div className="flex flex-col p-2 gap-2 h-full">
+        <div className="flex flex-col p-2 gap-2 h-full bg-white">
           <div className="space-y-2">
             <div className="flex flex-col-reverse gap-2">
               <div className="flex gap-1">
                 <DialogDemo />
-                <Card className="flex-[2] self-center p-2 flex gap-2 rounded-none">
+                <Card className="flex-[2] self-center p-2 flex gap-2  rounded-none">
                   {client ? (
                     <>
                       <p>
@@ -95,7 +95,7 @@ export default function Page() {
                   )}
                 </Card>
               </div>
-              <div className="flex gap-1">
+              <div className="flex gap-1 ">
                 <TotalPrixProductComponent />
                 <div className="bg-success-600 p-2 flex self-center">
                   <AlertDialog>

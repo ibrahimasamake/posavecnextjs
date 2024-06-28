@@ -1,13 +1,10 @@
 // @flow
-import * as React from 'react';
 
-type Props = {
-
-};
+type Props = {};
 export default function Page(props: Props) {
-    return (
-        <div>
-            helo
-        </div>
-    );
-};
+  return (
+    <div>
+      <h1 className="text-4xl font-bold">Dashboard de Sam informatique </h1>
+    </div>
+  );
+}

@@ -18,7 +18,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={cn(inter.className, "antialiased", "h-lvh")}>
+      <body
+        draggable={true}
+        className={cn(inter.className, "antialiased", "h-lvh")}
+      >
         {children}
       </body>
     </html>

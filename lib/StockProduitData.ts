@@ -35,7 +35,7 @@ const productNames = [
   "Digital Frame",
   "Smart Home Hub",
   "Wireless Charger",
-  "Electric Toothbrush",
+  "tric Toothbrush",
   "Portable Power Bank",
   "Car GPS",
   "E-Reader",
@@ -48,7 +48,7 @@ const productNames = [
   "Smart Plug",
   "Smart Doorbell",
   "Robot Vacuum",
-  "Electric Scooter",
+  "tric Scooter",
   "Drone with Camera",
   "Gaming Headset",
   "Smart Scale",
@@ -79,8 +79,8 @@ const getRandomInt = (min: number, max: number): number => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-const electronicProducts: StockProduitType[] = [];
-for (let i = 0; i < 40; i++) {
+const tronicProducts: StockProduitType[] = [];
+for (let i = 1; i < 19; i++) {
   const productName =
     productNames[Math.floor(Math.random() * productNames.length)];
   let prixEngro, prixVente;
@@ -134,7 +134,7 @@ for (let i = 0; i < 40; i++) {
     case "Smart Plug":
     case "Smart Doorbell":
     case "Robot Vacuum":
-    case "Electric Scooter":
+    case "tric Scooter":
     case "Smart Scale":
       prixEngro = getRandomInt(50, 200);
       prixVente = getRandomInt(100, 400);
@@ -147,27 +147,27 @@ for (let i = 0; i < 40; i++) {
 
   const product: StockProduitType = {
     id: `prod${i}`,
-    image: `https://source.unsplash.com/100x100/?electronics,${i}`,
+    image: `/images/product/img-${i}.png`,
     nom: productName,
     cathegorie: categories[Math.floor(Math.random() * categories.length)],
     prixEngro: prixEngro,
     prixVente: prixVente,
     quantite: getRandomInt(1, 50),
   };
-  electronicProducts.push(product);
+  tronicProducts.push(product);
 }
 
-generateElectronicProducts = electronicProducts;
+generateElectronicProducts = tronicProducts;
 
 // Filtrer les produits dont la quantité est inférieure à 20
-export let generateElectronicProductsFilterByQuantite: StockProduitType[];
-generateElectronicProductsFilterByQuantite = electronicProducts.filter(
+export let generatetronicProductsFilterByQuantite: StockProduitType[];
+generatetronicProductsFilterByQuantite = tronicProducts.filter(
   (product) => product.quantite < 20
 );
 
 // Supprimer des éléments par ID
 export function deleteItems(id: string): StockProduitType[] {
-  return (generateElectronicProducts = electronicProducts.filter(
+  return (generateElectronicProducts = tronicProducts.filter(
     (product) => product.id !== id
   ));
 }
@@ -183,9 +183,9 @@ type CathegorieDataType = {
 
 let cathegorieData: CathegorieDataType[] = [];
 
-for (let i = 0; i < categories.length; i++) {
+for (let i = 1; i < categories.length; i++) {
   const data: CathegorieDataType = {
-    image: `https://source.unsplash.com/100x100/?random=${i}`,
+    image: `/images/product/img-${i}.png`,
     nom: categories[i],
     quantite: Math.floor(Math.random() * (5000 - 500 + 1)) + 500,
   };

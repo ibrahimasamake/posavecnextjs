@@ -80,7 +80,7 @@ export const ListeCathegorieStock: React.FC<Props> = ({
   }, [search]);
 
   return (
-    <div className={" flex flex-col gap-2"}>
+    <div className={" flex flex-col gap-2 m-2"}>
       <div className={"flex  flex-row  flex-wrap  justify gap-4   "}>
         {listecathrgorie.map((item, i) => (
           <Cathegorie

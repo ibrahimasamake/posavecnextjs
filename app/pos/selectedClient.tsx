@@ -88,7 +88,7 @@ export function DialogDemo() {
         </Button>
       </DialogTrigger>
 
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="max-w-4xl max-h-screen m-4">
         <DialogHeader>
           <DialogTitle>Selection client</DialogTitle>
           <DialogDescription>
@@ -105,7 +105,7 @@ export function DialogDemo() {
               />
               <Button>Ajouter</Button>
             </div>
-            <Card className="p-2 max-h-[250px] overflow-y-auto">
+            <Card className="p-2 max-h-[400px] overflow-y-auto">
               <div>
                 {users.map((item, i) => (
                   <Card

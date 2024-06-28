@@ -1,10 +1,7 @@
 // @flow
 import { columns, StockZod } from "@/app/stock/tablestock/columns";
 import { DataTable } from "@/app/stock/tablestock/data-table";
-import {
-  generateElectronicProducts,
-  StockProduitType,
-} from "@/lib/StockProduitData";
+import {generateElectronicProducts,StockProduitType,} from "@/lib/StockProduitData";
 import { useEffect, useState } from "react";
 
 async function getData(): Promise<StockProduitType[]> {

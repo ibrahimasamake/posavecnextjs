@@ -31,7 +31,7 @@ import {
 } from "@/lib/rxjsEvent";
 import { cn } from "@/lib/utils";
 import { capitalize } from "@nextui-org/shared-utils";
-import { Angry, ChevronRight, Layers, Plus } from "lucide-react";
+import { Angry, Layers, Plus } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -173,7 +173,6 @@ export const RaccourcieBar = (props: RaccourcieBarType) => {
               }}
             >
               <span>Catégories </span>
-              <ChevronRight size={16} />
             </Button>
           </AlertDialogTrigger>
           <AlertDialogPortal>

@@ -1,15 +1,18 @@
 import { formatPrice } from "@/lib/actionUtils";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 
 type ProductProps = {
   quantite: number;
   prixTotal: number;
   name: string;
+  image: string;
 };
 
-function ProductComponent({ quantite, prixTotal, name }: ProductProps) {
+function ProductComponent({ quantite, prixTotal, name, image }: ProductProps) {
   return (
     <div className="flex justify-around  items-center  gap-2 p-4 border rounded-lg  shadow-sm bg-white hover:shadow-lg transition-shadow duration-200">
+      <Image src={image} alt={name} width={50} height={50} />
       <h2 className="flex-1 overflow-x-hidden font-medium">{name}</h2>
       <p className="text-gray-70 flex-1 ">
         <span className="font-semibold">{quantite}</span>
@@ -57,6 +60,7 @@ export function AllProduitsSelectValide({
           <ProductComponent
             key={item.id}
             name={item.name}
+            image={item.image}
             quantite={item.quantite}
             prixTotal={item.quantite * item.prix}
           />
